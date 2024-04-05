@@ -39,6 +39,3 @@ google-services.json
 
 # Android Profiling
 *.hprof
-
-# idea files
-.idea/
