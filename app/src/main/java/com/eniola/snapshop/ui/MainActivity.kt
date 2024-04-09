@@ -1,4 +1,12 @@
-package com.eniola.snapshop
+/*
+ * Copyright (c)
+ * Class Description
+ * Created by Eniola Ipoola on 2024.
+ * Copyright (c) $year. All rights reserved
+ *
+ */
+
+package com.eniola.snapshop.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +19,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.eniola.snapshop.ui.theme.SnapShopTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
