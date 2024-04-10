@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    //alias(libs.plugins.hiltAndroidGradlePlugin)
 }
 
 android {
@@ -60,6 +59,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.navigation.compose)
+    implementation(libs.google.accompanist.lib)
 
     //hilt
     implementation(libs.hilt)
