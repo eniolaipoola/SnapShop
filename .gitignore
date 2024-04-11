@@ -1,3 +1,11 @@
+.gradle
+/local.properties
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+
 # Gradle files
 .gradle/
 build/
