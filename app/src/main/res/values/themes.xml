@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base application theme. -->
 
-    <style name="Theme.SnapShop" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.SnapShop" parent="android:Theme.Material.Light.NoActionBar" >
+        <!-- Primary brand color. -->
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimary_700</item>
+        <!-- System bars colors. -->
+        <item name="android:statusBarColor">@color/colorSecondary</item>
+        <item name="android:navigationBarColor">@color/colorSecondary_500</item>
+
+    </style>
+
 </resources>
