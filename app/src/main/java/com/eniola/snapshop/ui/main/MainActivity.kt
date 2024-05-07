@@ -1,12 +1,4 @@
-/*
- * Copyright (c)
- * Class Description
- * Created by Eniola Ipoola on 2024.
- * Copyright (c) $year. All rights reserved
- *
- */
-
-package com.eniola.snapshop.ui
+package com.eniola.snapshop.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -29,7 +21,7 @@ class MainActivity : ComponentActivity() {
             SnapShopTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-
+                    SnapShopMainScreen()
                 }
             }
         }

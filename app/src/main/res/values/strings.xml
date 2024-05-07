@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SnapShop</string>
+    <string name="app_logo">App Logo</string>
+    <string name="splash_screen">SplashScreen</string>
+    <string name="onboarding">Onboarding</string>
+    <string name="authentication">Authentication</string>
+    <string name="login">Login</string>
+    <string name="SignUp">SignUp</string>
+    <string name="splashscreen">SplashScreen</string>
 </resources>
