@@ -8,7 +8,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.eniola.snapshop"
+        applicationId = "com.tei.snapshop"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.core.splashscreen)
 
     //Compose
     implementation(libs.androidx.material3)
