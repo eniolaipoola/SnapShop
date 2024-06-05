@@ -6,6 +6,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.tei.snapshop.ui.splashscreen.SplashScreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.tei.snapshop.NavScreen
+import com.tei.snapshop.ui.feature_onboarding.OnboardingPage
 
 /**
  * Class Description
@@ -13,18 +15,19 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
  * Copyright (c). All rights reserved
  */
 @Composable
-fun SnapShopMainScreen() {
+fun AppMainScreen(startDestination: String) {
     val navController = rememberNavController()
     val systemUiController = rememberSystemUiController()
 
-    NavHost(navController = navController, startDestination = NavScreen.SplashScreen.route) {
+    NavHost(navController = navController, startDestination = startDestination) {
+
         composable(NavScreen.SplashScreen.route) {
             SplashScreen()
         }
 
-    }
-}
+        composable(NavScreen.OnboardingScreen.route) {
+            OnboardingPage()
+        }
 
-sealed class NavScreen(val route: String) {
-    object SplashScreen : NavScreen("splashScreen")
+    }
 }
