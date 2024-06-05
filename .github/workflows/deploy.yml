@@ -1,7 +1,7 @@
 name: Deploy SnapShop Production CI
 
 on:
-  push:
+  pull_request:
     branches: [master]
 
 
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -43,10 +43,11 @@ jobs:
           cache: 'gradle'
 
       - name: Version Bump
-        uses: chkfung/android-version-actions@1.2.1
+        uses: chkfung/android-version-actions@v1.2.2
         with:
-          gradlePath: app/build.gradle
+          gradlePath: app/build.gradle.kts
           versionCode: ${{ github.run_number }}
+          versionName: 1.0.0
 
       - name: Assemble Release Bundle
         run: ./gradlew bundleRelease
@@ -54,7 +55,7 @@ jobs:
       - name: Sign Release
         uses: r0adkll/sign-android-release@v1
         with:
-          releaseDirectory: app/builds/outputs/bundle/release
+          releaseDirectory: app/build/outputs/bundle/release
           signingKeyBase64: ${{ secrets.KEYSTORE }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           alias: ${{ secrets.APP_NAME_KEY }}
@@ -65,11 +66,10 @@ jobs:
 
 
       - name: Deploy to Internal Channel
-        uses: r0dkll/upload-google-play@v1.0.19
+        uses: r0adkll/upload-google-play@v1.0.19
         with:
           serviceAccountJson: service_account.json
           packageName: com.tei.snapshop
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: internal
           status: 'completed'
-          whatsNewDirectory: whatsNewDirectory/

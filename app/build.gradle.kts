@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.eniola.snapshop"
+    namespace = "com.tei.snapshop"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.eniola.snapshop"
+        applicationId = "com.tei.snapshop"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -37,7 +37,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
     packaging {
         resources {
