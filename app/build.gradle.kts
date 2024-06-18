@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -8,7 +10,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.tei.snapshop"
+        applicationId = "com.eniola.snapshop"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -63,7 +65,22 @@ dependencies {
 
     //hilt
     implementation(libs.hilt)
-    annotationProcessor(libs.hilt.android.compiler)
+    implementation(libs.hilt.compose.navigation)
+    ksp(libs.hilt.android.compiler)
+
+    //retrofit
+    implementation(libs.retrofit)
+    implementation(libs.square.retrofit.gson)
+    implementation(libs.logging.interceptor)
+    testImplementation(libs.okhttp.test)
+
+    //logging
+    implementation(libs.timber)
+
+    implementation(libs.androidx.preference.ktx)
+
+    implementation(libs.splashscreen)
+
 
     //Unit / Implementation test
     testImplementation(libs.junit)

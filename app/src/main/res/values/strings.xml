@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SnapShop</string>
+    <string name="splashscreen">SplashScreen</string>
 </resources>
