@@ -27,7 +27,7 @@ class SplashScreenViewModel @Inject constructor(): ViewModel()
     init {
         viewModelScope.launch {
             // there is a logged in user
-            _startDestination.value = NavScreen.OnboardingScreen.route
+            _startDestination.value = NavScreen.SignIn.route
         }
 
         _isLoading.value = true

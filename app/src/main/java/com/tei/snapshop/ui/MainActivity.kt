@@ -19,7 +19,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.tei.snapshop.feature_splashscreen.SplashScreenViewModel
-import com.tei.snapshop.ui.AppMainScreen
 import com.tei.snapshop.ui.theme.SnapShopTheme
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -25,7 +25,7 @@ fun SplashScreen()
     ) {
         Image(modifier = Modifier,
             contentDescription = stringResource(R.string.splashscreen),
-            painter = painterResource(id = R.drawable.ic_launcher_foreground)
+            painter = painterResource(id = R.drawable.app_icon_foreground)
         )
     }
 }

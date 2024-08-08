@@ -1,4 +1,22 @@
 <resources>
     <string name="app_name">SnapShop</string>
     <string name="splashscreen">SplashScreen</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="or">OR</string>
+    <string name="sign_in_with_google">Sign In With Google</string>
+    <string name="question">question</string>
+    <string name="error_message">An error occurred</string>
+    <string name="success_message">Successful</string>
+    <string name="welcome_back_text">Welcome back!</string>
+    <string name="sign_in_text">Sign In</string>
+    <string name="show_password">Show Password</string>
+    <string name="hide_password">Hide Password</string>
+    <string name="forgot_password_question">Forgot Password?&#160;</string>
+    <string name="forgot_password_action">Reset it</string>
+    <string name="sign_in">Sign In</string>
+    <string name="no_account_question">Don\'t have an account?&#160;</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="continue_with_firebase">Continue with Firebase</string>
+    <string name="continue_with_google">Continue with Google</string>
 </resources>
