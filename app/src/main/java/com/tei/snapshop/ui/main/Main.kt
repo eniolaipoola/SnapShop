@@ -8,6 +8,7 @@ import com.tei.snapshop.ui.splashscreen.SplashScreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.tei.snapshop.NavScreen
 import com.tei.snapshop.ui.feature_onboarding.OnboardingPage
+import com.tei.snapshop.ui.home.LandingPageScreen
 
 /**
  * Class Description
@@ -27,6 +28,10 @@ fun AppMainScreen(startDestination: String) {
 
         composable(NavScreen.OnboardingScreen.route) {
             OnboardingPage()
+        }
+
+        composable(NavScreen.LandingPage.route) {
+            LandingPageScreen()
         }
 
     }
