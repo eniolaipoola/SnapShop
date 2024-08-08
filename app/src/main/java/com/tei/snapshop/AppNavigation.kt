@@ -12,4 +12,6 @@ sealed class NavScreen(val route: String) {
     object OnboardingScreen : NavScreen("onboarding")
 
     object SignIn : NavScreen("signIn")
+
+    object LandingPage : NavScreen("homeScreen")
 }
