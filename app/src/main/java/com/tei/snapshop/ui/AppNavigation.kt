@@ -1,4 +1,4 @@
-package com.tei.snapshop
+package com.tei.snapshop.ui
 
 /**
  * Class that holds the navigation routes for the whole application

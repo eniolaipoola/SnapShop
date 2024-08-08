@@ -1,11 +1,11 @@
-package com.tei.snapshop.ui.splashscreen
+package com.tei.snapshop.feature_splashscreen
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tei.snapshop.NavScreen
+import com.tei.snapshop.ui.NavScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

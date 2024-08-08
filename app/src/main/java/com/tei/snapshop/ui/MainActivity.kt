@@ -6,7 +6,7 @@
  *
  */
 
-package com.tei.snapshop.ui.main
+package com.tei.snapshop.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -18,7 +18,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.tei.snapshop.ui.splashscreen.SplashScreenViewModel
+import com.tei.snapshop.feature_splashscreen.SplashScreenViewModel
+import com.tei.snapshop.ui.AppMainScreen
 import com.tei.snapshop.ui.theme.SnapShopTheme
 import dagger.hilt.android.AndroidEntryPoint
 

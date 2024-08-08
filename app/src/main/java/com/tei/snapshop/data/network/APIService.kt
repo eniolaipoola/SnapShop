@@ -1,4 +1,4 @@
-package com.tei.snapshop.network
+package com.tei.snapshop.data.network
 
 /**
  * Class Description

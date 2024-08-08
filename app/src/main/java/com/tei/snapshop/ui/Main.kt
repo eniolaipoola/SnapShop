@@ -1,14 +1,13 @@
-package com.tei.snapshop.ui.main
+package com.tei.snapshop.ui
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.tei.snapshop.ui.splashscreen.SplashScreen
+import com.tei.snapshop.feature_splashscreen.SplashScreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.tei.snapshop.NavScreen
-import com.tei.snapshop.ui.feature_onboarding.OnboardingPage
-import com.tei.snapshop.ui.home.LandingPageScreen
+import com.tei.snapshop.feature_onboarding.OnboardingPage
+import com.tei.snapshop.feature_landing_page.LandingPageScreen
 
 /**
  * Class Description

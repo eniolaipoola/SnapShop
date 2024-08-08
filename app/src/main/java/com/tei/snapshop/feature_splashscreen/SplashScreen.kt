@@ -1,4 +1,4 @@
-package com.tei.snapshop.ui.splashscreen
+package com.tei.snapshop.feature_splashscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box

@@ -1,4 +1,4 @@
-package com.tei.snapshop.di
+package com.tei.snapshop.data.di
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

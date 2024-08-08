@@ -1,4 +1,4 @@
-package com.tei.snapshop.di
+package com.tei.snapshop.data.di
 
 import dagger.Module
 import dagger.Provides

@@ -1,4 +1,4 @@
-package com.tei.snapshop.ui
+package com.tei.snapshop.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Shapes

@@ -1,4 +1,4 @@
-package com.tei.snapshop.ui.feature_onboarding
+package com.tei.snapshop.feature_onboarding
 
 import androidx.compose.runtime.Composable
 

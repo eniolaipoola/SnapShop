@@ -1,6 +1,6 @@
-package com.tei.snapshop.di
+package com.tei.snapshop.data.di
 
-import com.tei.snapshop.network.APIService
+import com.tei.snapshop.data.network.APIService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

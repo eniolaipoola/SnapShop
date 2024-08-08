@@ -10,7 +10,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.eniola.snapshop"
+        applicationId = "com.tei.snapshop"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
