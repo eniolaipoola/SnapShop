@@ -5,7 +5,7 @@ import com.tei.snapshop.data.network.APIService
 import javax.inject.Inject
 
 /**
- * Class Description
+ * Repository class for SignIn feature
  * Created by Eniola Ipoola on 20/05/2024.
  * Copyright (c). All rights reserved
  */

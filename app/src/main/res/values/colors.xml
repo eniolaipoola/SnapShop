@@ -6,6 +6,8 @@
     <color name="color_secondary">#465318</color>
     <color name="color_secondary_800">#5A6B1F</color>
     <color name="neutral_300">#E6E6E6</color>
+    <color name="neutral_400">#BFBFBF</color>
+    <color name="neutral_500">#A0A0A0</color>
     <color name="neutral">#FFFFFF</color>
     <color name="neutral_200">#F2F2F2</color>
     <color name="black">#FF000000</color>

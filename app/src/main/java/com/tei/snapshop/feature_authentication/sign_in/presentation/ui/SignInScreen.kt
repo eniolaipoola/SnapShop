@@ -21,13 +21,14 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.tei.snapshop.R
 import com.tei.snapshop.feature_authentication.sign_in.presentation.SignInViewModel
 import com.tei.snapshop.ui.CustomAppButton
 import com.tei.snapshop.ui.EmailInput
+import com.tei.snapshop.ui.NavScreen
 import com.tei.snapshop.ui.PasswordInput
 import com.tei.snapshop.ui.theme.AppTypography
 
@@ -38,8 +39,14 @@ import com.tei.snapshop.ui.theme.AppTypography
  */
 
 @Composable
-fun SignInScreen(
+fun SignInScreen(navController: NavController) {
+    SignInContent(modifier = Modifier, navController)
+}
+
+@Composable
+fun SignInContent(
     modifier: Modifier,
+    navController: NavController,
     viewModel: SignInViewModel = hiltViewModel()
 ) {
 
@@ -49,7 +56,6 @@ fun SignInScreen(
         viewModel.isPasswordVisible
     }
     val isSignInButtonEnabled by remember { viewModel.isSignInButtonEnabled }
-
 
     Surface(
         color = Color.White,
@@ -118,11 +124,7 @@ fun SignInScreen(
                     modifier,
                     buttonText = stringResource(id = R.string.sign_in)
                 ) {
-                    if (isSignInButtonEnabled) {
-                        viewModel::signInUser
-                    } else {
-                        //error view that email or password cannot be null
-                    }
+                    navController.navigate(NavScreen.LandingPage.route)
                 }
 
             }
@@ -135,14 +137,16 @@ fun SignInScreen(
                     onClick = { },
                     googleButtonClicked = {},
                     firebaseButtonClicked = {},
-                    proTipText = null
+                    stringResource(R.string.or)
                 )
 
                 ChangeAuthModeText(
                     modifier = modifier
                         .fillMaxWidth()
                         .padding(top = 30.dp),
-                    onClick = {},
+                    onClick = {
+                              navController.navigate(NavScreen.SignUp.route)
+                    },
                     stringResource(R.string.no_account_question),
                     stringResource(R.string.sign_up),
                     TextStyle(textAlign = TextAlign.Center)
@@ -151,11 +155,4 @@ fun SignInScreen(
         }
 
     }
-}
-
-
-@Preview
-@Composable
-fun LoginScreen() {
-    SignInScreen(modifier = Modifier)
 }

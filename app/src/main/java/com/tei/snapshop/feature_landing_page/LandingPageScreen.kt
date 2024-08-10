@@ -16,7 +16,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.tei.snapshop.R
 
 /**
  * Class Description
@@ -26,7 +28,6 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun LandingPageScreen() {
-    val data =
     Surface(
         color = Color.White,
         modifier = Modifier
@@ -45,17 +46,16 @@ fun LandingPageScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBarCompose() {
-
     TopAppBar(
-        title = { Text("SnapShop") },
+        title = { Text(text = stringResource(id = R.string.app_name)) },
         modifier = Modifier,
         navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {}) {
                 Icon(Icons.Filled.Menu, contentDescription = "Navigation Drawer")
             }
         },
         actions = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {}) {
                 Icon(Icons.Filled.Favorite, contentDescription = "Action Icon")
             }
         }

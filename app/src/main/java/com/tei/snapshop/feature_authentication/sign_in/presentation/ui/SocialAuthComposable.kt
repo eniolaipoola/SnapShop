@@ -41,8 +41,8 @@ fun SocialAuthButtons(
     onClick: () -> Unit,
     googleButtonClicked: () -> Unit,
     firebaseButtonClicked: () -> Unit,
-    proTipText: String?)
-{
+    lineText: String?
+){
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -55,11 +55,11 @@ fun SocialAuthButtons(
             .weight(1f)
         )
         Text(
-            text = stringResource(R.string.or),
+            text = lineText ?: stringResource(R.string.or),
             textAlign = TextAlign.Center,
             modifier = modifier
                 .fillMaxHeight()
-                .weight(0.4f),
+                .weight(0.8f),
             style = AppTypography.bodySmall,
             color = colorResource(id = R.color.black)
         )
@@ -78,7 +78,7 @@ fun SocialAuthButtons(
         image = painterResource(id = R.drawable.firebase_logo)
     )
 
-    Spacer(modifier.height(15.dp))
+    Spacer(modifier.height(5.dp))
 
     AuthButtonComposable(
         modifier,
@@ -87,18 +87,6 @@ fun SocialAuthButtons(
         image = painterResource(id = R.drawable.google_logo)
     )
 
-
-
-    proTipText?.let {
-        Text(
-        text = it,
-        textAlign = TextAlign.Start,
-        modifier = modifier
-            .padding(top = 4.dp)
-            .fillMaxWidth(),
-        style = AppTypography.bodySmall,
-        color = colorResource(id = R.color.text_color_light))
-    }
 }
 
 @Preview
@@ -151,7 +139,6 @@ fun ChangeAuthModeText(
                 end = offset
             ).firstOrNull()?.tag?.let {
                 onClick()
-
             }
         }
     )

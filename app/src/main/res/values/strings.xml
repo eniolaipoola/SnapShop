@@ -19,4 +19,10 @@
     <string name="sign_up">Sign Up</string>
     <string name="continue_with_firebase">Continue with Firebase</string>
     <string name="continue_with_google">Continue with Google</string>
+    <string name="create_account_description">Create Your Account</string>
+    <string name="create_account">To shop our latest collection, kindly create an account using any of the options below</string>
+    <string name="username">Username</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="existing_account_question">Already have an account?&#160;</string>
+    <string name="or_sign_in">Or sign in with</string>
 </resources>
