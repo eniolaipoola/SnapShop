@@ -77,6 +77,9 @@ dependencies {
     //logging
     implementation(libs.timber)
 
+    //coil
+    implementation(libs.coil.compose)
+
     implementation(libs.androidx.preference.ktx)
 
     implementation(libs.splashscreen)
