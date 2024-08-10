@@ -30,14 +30,12 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.tei.snapshop.R
 import com.tei.snapshop.feature_authentication.sign_in.presentation.ui.ChangeAuthModeText
 import com.tei.snapshop.feature_authentication.sign_in.presentation.ui.SocialAuthButtons
 import com.tei.snapshop.feature_authentication.sign_up.SignUpViewModel
 import com.tei.snapshop.ui.CustomAppButton
 import com.tei.snapshop.ui.EmailInput
-import com.tei.snapshop.ui.NavScreen
 import com.tei.snapshop.ui.PasswordInput
 import com.tei.snapshop.ui.theme.AppTypography
 import com.tei.snapshop.ui.theme.shapes
@@ -49,15 +47,19 @@ import com.tei.snapshop.ui.theme.shapes
  */
 
 @Composable
-fun SignUpScreen(navController: NavController) {
-    SignUpContent(modifier = Modifier, navController = navController)
+fun SignUpScreen(
+    navigateToSignIn: () -> Unit,
+    navigateToLandingPage: () -> Unit
+) {
+    SignUpContent(modifier = Modifier, navigateToSignIn = navigateToSignIn, navigateToLandingPage )
 }
 
 @Composable
 fun SignUpContent(
     modifier: Modifier,
-    viewModel: SignUpViewModel = hiltViewModel(),
-    navController: NavController
+    navigateToSignIn: () -> Unit,
+    navigateToHomePage: () -> Unit,
+    viewModel: SignUpViewModel = hiltViewModel()
 ){
 
     val email by remember { viewModel.email }
@@ -147,7 +149,7 @@ fun SignUpContent(
                 ) {
                     if (isSignUpButtonEnabled) {
                         //Go to landing page
-                        navController.navigate(NavScreen.LandingPage.route)
+                        navigateToHomePage()
                     }
                 }
 
@@ -155,9 +157,7 @@ fun SignUpContent(
                     modifier = modifier
                         .fillMaxWidth()
                         .padding(top = 30.dp),
-                    onClick = {
-                        navController.navigate(NavScreen.SignIn.route)
-                    },
+                    onClick = { navigateToSignIn() },
                     stringResource(R.string.existing_account_question),
                     stringResource(R.string.sign_in),
                     TextStyle(textAlign = TextAlign.Center)

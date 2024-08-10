@@ -25,4 +25,8 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="existing_account_question">Already have an account?&#160;</string>
     <string name="or_sign_in">Or sign in with</string>
+    <string name="nav_drawer">Navigation Drawer</string>
+    <string name="action">Action</string>
+    <string name="search">Search</string>
+    <string name="product">Product Page</string>
 </resources>

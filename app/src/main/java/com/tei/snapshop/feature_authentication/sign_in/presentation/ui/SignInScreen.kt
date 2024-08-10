@@ -23,12 +23,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.tei.snapshop.R
 import com.tei.snapshop.feature_authentication.sign_in.presentation.SignInViewModel
 import com.tei.snapshop.ui.CustomAppButton
 import com.tei.snapshop.ui.EmailInput
-import com.tei.snapshop.ui.NavScreen
 import com.tei.snapshop.ui.PasswordInput
 import com.tei.snapshop.ui.theme.AppTypography
 
@@ -39,14 +37,18 @@ import com.tei.snapshop.ui.theme.AppTypography
  */
 
 @Composable
-fun SignInScreen(navController: NavController) {
-    SignInContent(modifier = Modifier, navController)
+fun SignInScreen(
+    navigateToSignUp: () -> Unit,
+    navigateToHomePage: () -> Unit
+) {
+    SignInContent(modifier = Modifier, navigateToSignUp, navigateToHomePage)
 }
 
 @Composable
 fun SignInContent(
     modifier: Modifier,
-    navController: NavController,
+    navigateToSignUp: () -> Unit,
+    navigateToHomePage: () -> Unit,
     viewModel: SignInViewModel = hiltViewModel()
 ) {
 
@@ -124,7 +126,7 @@ fun SignInContent(
                     modifier,
                     buttonText = stringResource(id = R.string.sign_in)
                 ) {
-                    navController.navigate(NavScreen.LandingPage.route)
+                    navigateToHomePage()
                 }
 
             }
@@ -145,7 +147,7 @@ fun SignInContent(
                         .fillMaxWidth()
                         .padding(top = 30.dp),
                     onClick = {
-                              navController.navigate(NavScreen.SignUp.route)
+                        navigateToSignUp()
                     },
                     stringResource(R.string.no_account_question),
                     stringResource(R.string.sign_up),

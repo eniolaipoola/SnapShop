@@ -7,12 +7,23 @@ package com.tei.snapshop.ui
  */
 
 sealed class NavScreen(val route: String) {
+
+    //Screen Routes
     object SplashScreen : NavScreen("splashScreen")
 
     object OnboardingScreen : NavScreen("onboarding")
 
     object SignIn : NavScreen("signIn")
     object SignUp : NavScreen("signUp")
+    object Logout : NavScreen("logout")
 
     object LandingPage : NavScreen("homeScreen")
+    object Product : NavScreen("product")
+    object Cart : NavScreen("cart")
+    object Settings : NavScreen("settings")
+
+    //Graph Routes
+    data object AuthNav : NavScreen("AUTH_NAV_GRAPH")
+
+    data object HomeNav : NavScreen("HOME_NAV_GRAPH")
 }
