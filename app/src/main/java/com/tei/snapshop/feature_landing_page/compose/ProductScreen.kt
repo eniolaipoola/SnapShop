@@ -2,20 +2,24 @@ package com.tei.snapshop.feature_landing_page.compose
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -28,7 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -120,30 +123,33 @@ fun ProductCategory() {
     val categories = listOf("All", "Woman", "Man", "Kids")
 
     LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
     ) {
         items(categories.size) { index ->
-            Box(
+            Card(
                 modifier = Modifier
-                    .background(
-                        color = if (index == 0) colorResource(id = R.color.black)
-                        else colorResource(id = R.color.neutral_500),
-                        shape = CircleShape
-                    )
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                contentAlignment = Alignment.Center
+                    .wrapContentSize()
+                    .border(shape = shapes.extraLarge, width = 1.dp, color = colorResource(id = R.color.neutral_500)),
             ) {
-                Text(
-                    text = categories[index],
-                    color = if (index == 0) colorResource(id = R.color.white)
-                    else colorResource(id = R.color.black),
-                    fontWeight = FontWeight.Bold
-                )
+                Box(
+                    modifier = Modifier
+                        .background(
+                            color = if (index == 0) colorResource(id = R.color.black)
+                            else colorResource(id = R.color.neutral_100),
+                        ).padding(horizontal = 8.dp, vertical = 8.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = categories[index],
+                        color = if (index == 0) colorResource(id = R.color.neutral_100)
+                        else colorResource(id = R.color.neutral_500),
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
     }
-
 }
 
 @Composable
@@ -171,91 +177,74 @@ fun ProductItemGrid() {
 fun ProductCard(product: Product) {
     Box(
         modifier = Modifier
-            .height(250.dp) // You can adjust the height as needed
+            .height(250.dp)
             .fillMaxWidth()
     ) {
-        val imagePainter: Painter = rememberAsyncImagePainter(model = product.imageUrl)
-
-        /*Image(
+        // Image as the background
+        Image(
             painter = rememberAsyncImagePainter(
                 model = product.imageUrl,
-                // placeholder = painterResource(R.drawable.placeholder),
-                //error = painterResource(R.drawable.error)
+                placeholder = painterResource(R.drawable.image_placeholder),
+                error = painterResource(R.drawable.icon_error)
             ),
             contentDescription = null,
             modifier = Modifier
-                .height(150.dp)
-                .fillMaxWidth()
-        )*/
-
-        // Image as the background
-        Image(
-            painter = imagePainter,
-            contentDescription = null,
-            modifier = Modifier
                 .fillMaxSize(),
-            contentScale = ContentScale.Crop // Makes sure the image fills the entire box
+            alpha = 0.7F,
+            contentScale = ContentScale.FillHeight // ContentScale.Crop makes sure the image fills the entire box
         )
 
         Column(
             modifier = Modifier
-                .background(colorResource(id = R.color.neutral_500))
                 .padding(8.dp)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.Start
         ) {
-            // Top content (Name and Price)
-            Column {
-                Text(
-                    text = product.name,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                    textAlign = TextAlign.Left
-                )
-                Spacer(modifier = Modifier.height(4.dp))
+            // Top content (Like button)
+            Icon(
+                painter = painterResource(id = R.drawable.icon_like),
+               // tint = Color.Black,
+                contentDescription = stringResource(R.string.like_button),
+                modifier = Modifier
+                    .size(24.dp).align(Alignment.End)
+                    .background(Color.Black, shape = CircleShape)
+                    .padding(4.dp)
+            )
 
-                Text(
-                    text = product.price,
-                    color = Color.White,
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.Left
-                )
-            }
-
-            // Bottom content (Icon)
-            Box(
+            // Bottom content (Name and Price, Cart Icon)
+            Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                contentAlignment = Alignment.BottomEnd
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
+                Column {
+                    Text(
+                        text = product.name,
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Left
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    Text(
+                        text = product.price,
+                        color = Color.Black,
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Left
+                    )
+                }
+
                 Icon(
                     painter = painterResource(id = R.drawable.icon_cart),
                     contentDescription = "Add to Cart",
-                    tint = Color.White,
                     modifier = Modifier
                         .size(24.dp)
-                        .background(Color.Black.copy(alpha = 0.7f), shape = CircleShape)
-                        .padding(4.dp)
+                        .background(Color.Black, shape = CircleShape)
+                        .padding(4.dp).align(Alignment.CenterVertically)
                 )
             }
-
-            /*Spacer(modifier = Modifier.height(8.dp))
-
-            Text(text = product.name, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Text(text = product.price, color = Color.Gray, fontSize = 14.sp)
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Icon(
-                painter = painterResource(id = R.drawable.icon_cart),
-                contentDescription = "Add to Cart",
-                tint = Color.Black
-            )*/
         }
     }
 
