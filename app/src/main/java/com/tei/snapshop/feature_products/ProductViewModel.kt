@@ -1,4 +1,4 @@
-package com.tei.snapshop.feature_landing_page
+package com.tei.snapshop.feature_products
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel

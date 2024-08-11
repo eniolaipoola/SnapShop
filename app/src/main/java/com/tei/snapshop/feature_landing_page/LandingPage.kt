@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
 import com.tei.snapshop.R
+import com.tei.snapshop.feature_landing_page.compose.BottomNavigationItem
 import com.tei.snapshop.ui.HomeNavGraph
 import com.tei.snapshop.ui.theme.AppTypography
 

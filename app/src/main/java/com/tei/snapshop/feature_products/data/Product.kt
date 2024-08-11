@@ -1,4 +1,4 @@
-package com.tei.snapshop.feature_landing_page.data
+package com.tei.snapshop.feature_products.data
 
 /**
  * Class Description

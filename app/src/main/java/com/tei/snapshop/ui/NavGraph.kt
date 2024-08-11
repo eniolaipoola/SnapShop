@@ -2,6 +2,7 @@ package com.tei.snapshop.ui
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -9,10 +10,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.tei.snapshop.feature_authentication.sign_in.presentation.ui.SignInScreen
 import com.tei.snapshop.feature_authentication.sign_up.presentation.ui.SignUpScreen
-import com.tei.snapshop.feature_landing_page.compose.CartScreen
-import com.tei.snapshop.feature_landing_page.compose.ProductScreen
-import com.tei.snapshop.feature_landing_page.compose.SettingScreen
+import com.tei.snapshop.feature_cart.CartScreen
+import com.tei.snapshop.feature_products.presentation.ProductScreen
+import com.tei.snapshop.feature_settings.presentation.SettingScreen
 import com.tei.snapshop.feature_onboarding.OnboardingPage
+import com.tei.snapshop.feature_products.presentation.ProductDetailsScreen
 
 /**
  * Class that has both screen nav and graph nav across major features
@@ -64,15 +66,22 @@ fun HomeNavGraph(
         startDestination = NavScreen.Product.route
     ) {
         composable(route = NavScreen.Product.route){
-            ProductScreen(padding = padding)
+            ProductScreen(padding = padding, onClick = {
+                navController.navigate(NavScreen.ProductDetail.route)
+            })
         }
 
         composable(route = NavScreen.Cart.route){
-            CartScreen()
+            CartScreen(padding = padding)
         }
 
         composable(route = NavScreen.Settings.route){
-            SettingScreen()
+            SettingScreen(paddingValues = padding)
+        }
+        composable(route = NavScreen.ProductDetail.route){
+            ProductDetailsScreen(modifier = Modifier, padding, backHandler =  {
+                navController.navigate(NavScreen.Product.route)
+            })
         }
     }
 }

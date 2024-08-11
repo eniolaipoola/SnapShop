@@ -1,8 +1,9 @@
-package com.tei.snapshop.feature_landing_page.compose
+package com.tei.snapshop.feature_products.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -43,8 +45,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.tei.snapshop.R
-import com.tei.snapshop.feature_landing_page.ProductViewModel
-import com.tei.snapshop.feature_landing_page.data.Product
+import com.tei.snapshop.feature_products.ProductViewModel
+import com.tei.snapshop.feature_products.data.Product
 import com.tei.snapshop.ui.theme.AppTypography
 import com.tei.snapshop.ui.theme.shapes
 
@@ -57,6 +59,7 @@ import com.tei.snapshop.ui.theme.shapes
 @Composable
 fun ProductScreen(
     viewModel: ProductViewModel = hiltViewModel(),
+    onClick: () -> Unit,
     padding: PaddingValues
 ) {
     val searchQuery by remember { viewModel.searchQuery }
@@ -112,7 +115,7 @@ fun ProductScreen(
                 ProductCategory()
                 Spacer(modifier = Modifier.height(10.dp))
                 //vertical product recyclerview
-                ProductItemGrid()
+                ProductItemGrid(onClick)
             }
         }
     }
@@ -124,36 +127,30 @@ fun ProductCategory() {
 
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
+        contentPadding = PaddingValues(16.dp),
     ) {
         items(categories.size) { index ->
             Card(
                 modifier = Modifier
-                    .wrapContentSize()
-                    .border(shape = shapes.extraLarge, width = 1.dp, color = colorResource(id = R.color.neutral_500)),
+                    .background(color = colorResource(id = R.color.neutral_100)).wrapContentSize()
+                    .border(shape = shapes.large, width = 0.5.dp, color = colorResource(id = R.color.neutral_200)),
+                colors = CardDefaults.cardColors(
+                    containerColor = colorResource(R.color.white),
+                ),
+
             ) {
-                Box(
-                    modifier = Modifier
-                        .background(
-                            color = if (index == 0) colorResource(id = R.color.black)
-                            else colorResource(id = R.color.neutral_100),
-                        ).padding(horizontal = 8.dp, vertical = 8.dp),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(
-                        text = categories[index],
-                        color = if (index == 0) colorResource(id = R.color.neutral_100)
-                        else colorResource(id = R.color.neutral_500),
-                        fontWeight = FontWeight.Bold
-                    )
-                }
+                Text(
+                    text = categories[index],
+                    modifier = Modifier.padding(12.dp),
+                    color = colorResource(id = R.color.neutral_500),
+                )
             }
         }
     }
 }
 
 @Composable
-fun ProductItemGrid() {
+fun ProductItemGrid(onClick: () -> Unit) {
     val products = listOf(
         Product("Jacket", "$100", "https://i.pravatar.cc/"),
         Product("Pant", "$20", "https://i.pravatar.cc/"),
@@ -168,17 +165,19 @@ fun ProductItemGrid() {
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(products.size) { index ->
-            ProductCard(product = products[index])
+            ProductCard(product = products[index], onClick)
         }
     }
 }
 
 @Composable
-fun ProductCard(product: Product) {
+fun ProductCard(product: Product, onProductClicked: () -> Unit) {
     Box(
         modifier = Modifier
             .height(250.dp)
-            .fillMaxWidth()
+            .fillMaxWidth().clickable {
+                onProductClicked()
+            }
     ) {
         // Image as the background
         Image(
@@ -204,11 +203,11 @@ fun ProductCard(product: Product) {
             // Top content (Like button)
             Icon(
                 painter = painterResource(id = R.drawable.icon_like),
-               // tint = Color.Black,
+                tint = Color.White,
                 contentDescription = stringResource(R.string.like_button),
                 modifier = Modifier
                     .size(24.dp).align(Alignment.End)
-                    .background(Color.Black, shape = CircleShape)
+                    .background(Color.Black.copy(alpha = 0.5F), shape = CircleShape)
                     .padding(4.dp)
             )
 
@@ -239,9 +238,10 @@ fun ProductCard(product: Product) {
                 Icon(
                     painter = painterResource(id = R.drawable.icon_cart),
                     contentDescription = "Add to Cart",
+                    tint = Color.White,
                     modifier = Modifier
                         .size(24.dp)
-                        .background(Color.Black, shape = CircleShape)
+                        .background(Color.Black.copy(alpha = 0.5F), shape = CircleShape)
                         .padding(4.dp).align(Alignment.CenterVertically)
                 )
             }

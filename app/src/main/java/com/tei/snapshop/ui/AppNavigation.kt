@@ -21,6 +21,7 @@ sealed class NavScreen(val route: String) {
     object Product : NavScreen("product")
     object Cart : NavScreen("cart")
     object Settings : NavScreen("settings")
+    object ProductDetail : NavScreen("product_details")
 
     //Graph Routes
     data object AuthNav : NavScreen("AUTH_NAV_GRAPH")

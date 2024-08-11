@@ -1,5 +1,6 @@
-package com.tei.snapshop.feature_landing_page.compose
+package com.tei.snapshop.feature_settings.presentation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 
 /**
@@ -8,6 +9,6 @@ import androidx.compose.runtime.Composable
  * Copyright (c). All rights reserved
  */
 @Composable
-fun SettingScreen() {
+fun SettingScreen(paddingValues: PaddingValues) {
 
 }
