@@ -76,7 +76,9 @@ fun HomeNavGraph(
         }
 
         composable(route = NavScreen.Settings.route){
-            SettingScreen(paddingValues = padding)
+            SettingScreen(paddingValues = padding, backHandler = {
+                navController.navigate(NavScreen.Settings.route)
+            }, modifier = Modifier)
         }
         composable(route = NavScreen.ProductDetail.route){
             ProductDetailsScreen(modifier = Modifier, padding, backHandler =  {

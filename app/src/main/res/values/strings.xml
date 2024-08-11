@@ -31,4 +31,24 @@
     <string name="product">Product Page</string>
     <string name="add_to_cart">Add to Cart</string>
     <string name="like_button">Like Button</string>
+    <string name="arrow_forward">Arrow Forward</string>
+    <string name="account_details">Account Details</string>
+    <string name="edit_your_account_info">Edit your account information</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="add_your_credit_or_debit_card">Add your credit or debit Card</string>
+    <string name="delivery_addresses">Delivery Addresses</string>
+    <string name="edit_address">Edit or add new address</string>
+    <string name="security_password"><![CDATA[Security & Password]]></string>
+    <string name="edit_password">Edit your password</string>
+    <string name="setting">Setting</string>
+    <string name="general">General</string>
+    <string name="log_out">Log Out</string>
+    <string name="notifications">Notifications</string>
+    <string name="manage_notifications">Manage your notifications</string>
+    <string name="language">Language</string>
+    <string name="change_your_language">Change your language</string>
+    <string name="privacy_policy"><![CDATA[Privacy & Policy]]></string>
+    <string name="read_privacy_policies">Read privacy policies</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="contact_us_info">Get in touch with us</string>
 </resources>
