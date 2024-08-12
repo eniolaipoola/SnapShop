@@ -10,7 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.tei.snapshop.feature_authentication.sign_in.presentation.ui.SignInScreen
 import com.tei.snapshop.feature_authentication.sign_up.presentation.ui.SignUpScreen
-import com.tei.snapshop.feature_cart.CartScreen
+import com.tei.snapshop.feature_cart.presentation.CartScreen
 import com.tei.snapshop.feature_products.presentation.ProductScreen
 import com.tei.snapshop.feature_settings.presentation.SettingScreen
 import com.tei.snapshop.feature_onboarding.OnboardingPage
@@ -72,7 +72,9 @@ fun HomeNavGraph(
         }
 
         composable(route = NavScreen.Cart.route){
-            CartScreen(padding = padding)
+            CartScreen(padding = padding, modifier = Modifier, backHandler = {
+
+            })
         }
 
         composable(route = NavScreen.Settings.route){

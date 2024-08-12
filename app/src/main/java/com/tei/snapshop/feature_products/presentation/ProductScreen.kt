@@ -19,7 +19,9 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -132,7 +134,8 @@ fun ProductCategory() {
         items(categories.size) { index ->
             Card(
                 modifier = Modifier
-                    .background(color = colorResource(id = R.color.neutral_100)).wrapContentSize()
+                    .background(color = colorResource(id = R.color.neutral_100))
+                    .wrapContentSize()
                     .border(shape = shapes.large, width = 0.5.dp, color = colorResource(id = R.color.neutral_200)),
                 colors = CardDefaults.cardColors(
                     containerColor = colorResource(R.color.white),
@@ -152,10 +155,10 @@ fun ProductCategory() {
 @Composable
 fun ProductItemGrid(onClick: () -> Unit) {
     val products = listOf(
-        Product("Jacket", "$100", "https://i.pravatar.cc/"),
-        Product("Pant", "$20", "https://i.pravatar.cc/"),
-        Product("Jacket", "$80", "https://i.pravatar.cc/"),
-        Product("Dress", "$50", "https://i.pravatar.cc/")
+        Product(1,"Jacket", "$100", description = "Product", "https://i.pravatar.cc/", "Men"),
+        Product(2, name ="Pant", price = "$20", description = "Product", imageUrl = "https://i.pravatar.cc/", category = "Women"),
+        Product(3,"Jacket", "$80", description = "Product","https://i.pravatar.cc/", "kids"),
+        Product(4,"Dress", "$50", description = "Product","https://i.pravatar.cc/", category = "Men")
     )
 
     LazyVerticalGrid(
@@ -175,7 +178,8 @@ fun ProductCard(product: Product, onProductClicked: () -> Unit) {
     Box(
         modifier = Modifier
             .height(250.dp)
-            .fillMaxWidth().clickable {
+            .fillMaxWidth()
+            .clickable {
                 onProductClicked()
             }
     ) {
@@ -206,7 +210,8 @@ fun ProductCard(product: Product, onProductClicked: () -> Unit) {
                 tint = Color.White,
                 contentDescription = stringResource(R.string.like_button),
                 modifier = Modifier
-                    .size(24.dp).align(Alignment.End)
+                    .size(24.dp)
+                    .align(Alignment.End)
                     .background(Color.Black.copy(alpha = 0.5F), shape = CircleShape)
                     .padding(4.dp)
             )
@@ -223,6 +228,7 @@ fun ProductCard(product: Product, onProductClicked: () -> Unit) {
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
+                        style = AppTypography.bodyMedium,
                         textAlign = TextAlign.Left
                     )
                     Spacer(modifier = Modifier.height(4.dp))
@@ -231,6 +237,7 @@ fun ProductCard(product: Product, onProductClicked: () -> Unit) {
                         text = product.price,
                         color = Color.Black,
                         fontSize = 16.sp,
+                        style = AppTypography.bodySmall,
                         textAlign = TextAlign.Left
                     )
                 }
@@ -242,7 +249,8 @@ fun ProductCard(product: Product, onProductClicked: () -> Unit) {
                     modifier = Modifier
                         .size(24.dp)
                         .background(Color.Black.copy(alpha = 0.5F), shape = CircleShape)
-                        .padding(4.dp).align(Alignment.CenterVertically)
+                        .padding(4.dp)
+                        .align(Alignment.CenterVertically)
                 )
             }
         }

@@ -2,11 +2,14 @@ package com.tei.snapshop.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -23,6 +26,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -277,6 +281,35 @@ fun SuccessView(
                 .align(Alignment.CenterVertically),
             style = AppTypography.bodySmall,
             color = colorResource(id = R.color.color_primary)
+        )
+    }
+}
+
+@Composable
+fun PageTitle(
+    modifier: Modifier,
+    backHandler: () -> Unit,
+    pageTitle: String
+) {
+    // Top back button and product details text
+    Row(
+        modifier = modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.icon_back_button),
+            contentDescription = "Back",
+            modifier = modifier
+                .size(24.dp)
+                .clickable { backHandler() }
+        )
+        Spacer(modifier = modifier.width(16.dp))
+        Text(
+            text = pageTitle,
+            fontWeight = FontWeight.Bold,
+            style = AppTypography.titleMedium,
+            fontSize = 20.sp
         )
     }
 }
