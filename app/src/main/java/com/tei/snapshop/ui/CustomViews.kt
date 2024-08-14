@@ -15,6 +15,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -46,11 +47,13 @@ import com.tei.snapshop.ui.theme.shapes
 fun EmailInput(
     email: String,
     modifier: Modifier,
+    error: String?,
     onEmailChange: (String) -> Unit
 ) {
     OutlinedTextField(
         value = email.trim(),
         onValueChange =  onEmailChange,
+        isError = error != null,
         label = {
             Text(
                 text = stringResource(R.string.email),
@@ -60,7 +63,7 @@ fun EmailInput(
         },
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 15.dp),
+            .padding(top = 5.dp),
         shape = shapes.medium,
         singleLine = true,
         maxLines = 1,
@@ -73,6 +76,10 @@ fun EmailInput(
             unfocusedContainerColor = Color.Transparent
         )
     )
+
+    if (error != null) {
+        Text(text = error, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.labelMedium)
+    }
 }
 
 
@@ -82,10 +89,11 @@ fun PasswordInput(
     modifier: Modifier,
     onPasswordChange: (String) -> Unit,
     isPasswordVisible: Boolean,
+    error: String?,
     onPasswordVisibilityToggle: () -> Unit
 ) {
     OutlinedTextField(
-        value = password,
+        value = password.trim(),
         onValueChange = onPasswordChange,
         label = { Text(text = stringResource(R.string.password),
             style = AppTypography.bodySmall) },
@@ -93,6 +101,7 @@ fun PasswordInput(
             .fillMaxWidth(),
         shape = shapes.medium,
         singleLine = true,
+        isError = error != null,
         visualTransformation = when(isPasswordVisible) {
             true ->  VisualTransformation.None
             false -> PasswordVisualTransformation()
@@ -127,6 +136,9 @@ fun PasswordInput(
         }
     )
 
+    if (error != null) {
+        Text(text = error, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.labelMedium)
+    }
 }
 
 
@@ -134,7 +146,8 @@ fun PasswordInput(
 fun CustomAppButton(
     modifier: Modifier,
     buttonText: String,
-    onButtonClicked: () -> Unit
+    onButtonClicked: () -> Unit,
+    enabled: Boolean
 ) {
     Button(
         shape = shapes.medium,
@@ -144,9 +157,10 @@ fun CustomAppButton(
             .height(50.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = colorResource(id = R.color.color_primary),
-            disabledContainerColor = colorResource(id = R.color.button_inactive_color)
+            disabledContainerColor = colorResource(id = R.color.button_inactive_color),
+            disabledContentColor = colorResource(id = R.color.color_primary)
         ),
-        enabled = true,
+        enabled = enabled,
         border = BorderStroke(1.dp, colorResource(id = R.color.text_field_container_color)),
         onClick = onButtonClicked
     ) {
@@ -163,7 +177,7 @@ fun CustomAppButton(
                     modifier = modifier
                         .padding(start = 16.dp, end = 16.dp),
                     text = buttonText,
-                    color = colorResource(id = R.color.white),
+                    color = colorResource(id = R.color.text_color),
                     textAlign = TextAlign.Center,
                     style = AppTypography.bodySmall,
                     fontSize = 16.sp

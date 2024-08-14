@@ -17,7 +17,7 @@
     <string name="sign_in">Sign In</string>
     <string name="no_account_question">Don\'t have an account?&#160;</string>
     <string name="sign_up">Sign Up</string>
-    <string name="continue_with_firebase">Continue with Firebase</string>
+    <string name="continue_with_firebase">Continue with Facebook</string>
     <string name="continue_with_google">Continue with Google</string>
     <string name="create_account_description">Create Your Account</string>
     <string name="create_account">To shop our latest collection, kindly create an account using any of the options below</string>
@@ -54,4 +54,9 @@
     <string name="cart">Cart</string>
     <string name="product_details">Product Details</string>
     <string name="checkout">Checkout</string>
+
+    <!--Facebook Credentials-->
+    <string name="facebook_app_id">2187583964958987</string>
+    <string name="fb_login_protocol_scheme">fb2187583964958987</string>
+    <string name="facebook_client_token">4b52ea5eec12517e9bf9f6d1d6a94e38</string>
 </resources>

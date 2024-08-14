@@ -104,10 +104,12 @@ fun CartScreen(
                 // Add to Cart button
                 CustomAppButton(
                     modifier,
-                    buttonText = stringResource(id = R.string.checkout)
-                ) {
-                    //Add to cart
-                }
+                    buttonText = stringResource(id = R.string.checkout),
+                    enabled = true,
+                    onButtonClicked = {
+
+                    }
+                )
             }
         }
     }

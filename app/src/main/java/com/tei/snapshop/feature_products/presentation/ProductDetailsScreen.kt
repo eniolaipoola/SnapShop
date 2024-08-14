@@ -160,10 +160,12 @@ fun ProductDetailsScreen(
             // Add to Cart button
             CustomAppButton(
                 modifier,
-                buttonText = stringResource(id = R.string.add_to_cart)
-            ) {
-                //Add to cart
-            }
+                buttonText = stringResource(id = R.string.add_to_cart),
+                enabled = true,
+                onButtonClicked = {
+
+                }
+            )
         }
     }
 }

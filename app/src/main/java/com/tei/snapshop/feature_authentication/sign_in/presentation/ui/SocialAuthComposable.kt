@@ -43,6 +43,7 @@ fun SocialAuthButtons(
     firebaseButtonClicked: () -> Unit,
     lineText: String?
 ){
+    val context = LocalContext.current.applicationContext
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -75,7 +76,7 @@ fun SocialAuthButtons(
         modifier,
         buttonText = stringResource(id = R.string.continue_with_firebase),
         onButtonClick = {},
-        image = painterResource(id = R.drawable.firebase_logo)
+        image = painterResource(id = R.drawable.icon_facebook)
     )
 
     Spacer(modifier.height(5.dp))

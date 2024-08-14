@@ -67,7 +67,9 @@ fun LandingPageContent() {
         topBar = { TopBarCompose() },
         modifier = Modifier
     ) { innerPadding ->
-        HomeNavGraph(navController = navController, innerPadding) {}
+        HomeNavGraph(navController = navController, innerPadding) {
+
+        }
     }
 }
 

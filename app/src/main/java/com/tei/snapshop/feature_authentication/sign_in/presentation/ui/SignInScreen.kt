@@ -1,5 +1,8 @@
 package com.tei.snapshop.feature_authentication.sign_in.presentation.ui
 
+import android.content.Context
+import android.content.ContextWrapper
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -58,6 +62,8 @@ fun SignInContent(
         viewModel.isPasswordVisible
     }
     val isSignInButtonEnabled by remember { viewModel.isSignInButtonEnabled }
+    val context = LocalContext.current
+
 
     Surface(
         color = Color.White,
@@ -95,7 +101,8 @@ fun SignInContent(
                 EmailInput(
                     email = email,
                     modifier = modifier,
-                    onEmailChange = viewModel::onEmailChanged
+                    onEmailChange = viewModel::onEmailChanged,
+                    error = null
                 )
 
                 Spacer(modifier.height(15.dp))
@@ -105,7 +112,8 @@ fun SignInContent(
                     modifier = modifier,
                     onPasswordChange = viewModel::onPasswordChanged,
                     onPasswordVisibilityToggle = viewModel::onPasswordVisibilityToggle,
-                    isPasswordVisible = passwordVisibility
+                    isPasswordVisible = passwordVisibility,
+                    error = null
                 )
 
                 Spacer(modifier.height(15.dp))
@@ -124,10 +132,12 @@ fun SignInContent(
 
                 CustomAppButton(
                     modifier,
-                    buttonText = stringResource(id = R.string.sign_in)
-                ) {
-                    navigateToHomePage()
-                }
+                    buttonText = stringResource(id = R.string.sign_in),
+                    enabled = true,
+                    onButtonClicked = {
+                        navigateToHomePage()
+                    }
+                )
 
             }
 
@@ -138,7 +148,13 @@ fun SignInContent(
                 SocialAuthButtons(modifier = modifier.fillMaxWidth(),
                     onClick = { },
                     googleButtonClicked = {},
-                    firebaseButtonClicked = {},
+                    firebaseButtonClicked = {
+                        //facebook login
+                        /*val login = context.getActivity()
+                                ?.let { LoginManager.getInstance().logIn(it, CallbackManager.Factory.create(),
+                                    listOf("eniolaipoola@gmail.com"))
+                                } ?: Log.d("tag", "Context not found")*/
+                    },
                     stringResource(R.string.or)
                 )
 
@@ -157,4 +173,10 @@ fun SignInContent(
         }
 
     }
+}
+
+fun Context.getActivity(): ComponentActivity? = when (this) {
+    is ComponentActivity -> this
+    is ContextWrapper -> baseContext.getActivity()
+    else -> null
 }

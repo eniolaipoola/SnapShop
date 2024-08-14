@@ -27,7 +27,8 @@ fun NavGraphBuilder.authenticationNav(
     navController: NavHostController
 ) {
     navigation(startDestination = NavScreen.SignIn.route,
-        route = NavScreen.AuthNav.route) {
+        route = NavScreen.AuthNav.route
+    ) {
 
         composable(NavScreen.OnboardingScreen.route) {
             OnboardingPage()
