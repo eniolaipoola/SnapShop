@@ -16,7 +16,9 @@ lifecycleRuntimeKtx = "2.8.1"
 activityCompose = "1.9.0"
 composeBom = "2024.05.00"
 hilt = "2.51.1"
+mockitoAndroid = "5.5.0"
 mockitoCore = "5.3.1"
+mockitoJunitJupiter = "5.5.0"
 mockk = "1.13.7"
 navigationCompose = "2.7.7"
 google-accompanist = "0.28.0"
@@ -57,7 +59,9 @@ hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt"}
 hilt-compose-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-compose-navigation"}
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+mockito-android = { module = "org.mockito:mockito-android", version.ref = "mockitoAndroid" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockitoJunitJupiter" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose"}
 google-accompanist-lib = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "google-accompanist"}

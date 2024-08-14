@@ -61,6 +61,10 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            listOf(
+                "META-INF/LICENSE.md",
+                "META-INF/LICENSE-notice.md",
+            )
         }
     }
 }
@@ -84,6 +88,7 @@ dependencies {
     implementation(libs.hilt)
     implementation(libs.hilt.compose.navigation)
     implementation(libs.androidx.junit.ktx)
+    //androidTestImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     ksp(libs.hilt.android.compiler)
 
     //retrofit
@@ -119,4 +124,10 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.robolectric)
     testImplementation(libs.junit)
+    // For Mockito
+    testImplementation(libs.mockito.core)
+    // For Mockito JUnit Runner
+    testImplementation(libs.mockito.junit.jupiter)
+    // For Android instrumentation tests with Mockito
+    androidTestImplementation(libs.mockito.android)
 }

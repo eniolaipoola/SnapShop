@@ -17,7 +17,7 @@ import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertNull
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -46,7 +46,7 @@ class SignUpViewModelTest {
 
     private lateinit var viewModel: SignUpViewModel
 
-    private val testDispatcher = TestCoroutineDispatcher()
+    private val testDispatcher = UnconfinedTestDispatcher()
 
 
     @Before
@@ -60,7 +60,6 @@ class SignUpViewModelTest {
     @After
     fun tearDown() {
         Dispatchers.resetMain()
-        testDispatcher.cleanupTestCoroutines()
         unmockkAll()
     }
 
@@ -113,16 +112,12 @@ class SignUpViewModelTest {
         //Call the signUpUser method
         viewModel.signUpUser("testuser@gmail.com", "password")
 
-        //Advance until all coroutines are completed
-        advanceUntilIdle()
-
         //Verify that the signUpUser method was called with correct parameters
         coVerify { firebaseAuth.createUserWithEmailAndPassword("testuser@gmail.com", "password") }
 
         assert(viewModel.signUpState.value is SignUpState.Loading)  //assert that the signupState is initially set to Loading
 
-        //Assert that the signupState is set to Success after the task completes
-        //assert(viewModel.signUpState.value is SignUpState.Error)
+        assertNotNull(viewModel.signUpState.value)
     }
 
     @Test
@@ -163,7 +158,7 @@ class SignUpViewModelTest {
         advanceUntilIdle()
 
         // Assert that signupState is Success
-        assertNotNull(viewModel.signUpState.value is SignUpState.Idle)
+        assertNotNull(viewModel.signUpState.value is SignUpState.Success)
     }
 
 

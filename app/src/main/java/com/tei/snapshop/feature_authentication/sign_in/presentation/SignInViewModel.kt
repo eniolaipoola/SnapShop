@@ -53,7 +53,7 @@ class SignInViewModel @Inject constructor(
     }
 
     fun signInUser(email: String, password: String) {
-        viewModelScope.launch(dispatcher.io) {
+        viewModelScope.launch {
             signInState.value = SignInState.Loading
             try {
                 firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
