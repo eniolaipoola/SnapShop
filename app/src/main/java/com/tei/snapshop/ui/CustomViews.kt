@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -206,10 +207,10 @@ fun AuthButtonComposable(
             containerColor = Color.White,
             disabledContainerColor = colorResource(id = R.color.button_inactive_color)
         ),
-        enabled = true,
+        enabled = false,
         border = BorderStroke(1.dp, colorResource(id = R.color.text_field_container_color)),
         onClick = {
-            onButtonClick
+            onButtonClick()
         }
     ) {
         Box(
@@ -266,6 +267,19 @@ fun ErrorView(
                 .align(Alignment.CenterVertically),
             style = AppTypography.bodySmall,
             color = colorResource(id = R.color.black)
+        )
+    }
+}
+
+@Composable
+fun LoadingView(modifier: Modifier) {
+    Box(
+        modifier
+            .width(50.dp)
+            .height(5.dp)
+    ) {
+        CircularProgressIndicator(
+            color = colorResource(id = R.color.black),
         )
     }
 }

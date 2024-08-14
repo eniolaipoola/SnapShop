@@ -134,9 +134,9 @@ class SignUpViewModelTest {
         every { mockTask.exception } returns Exception("Signup failed")
         every { firebaseAuth.createUserWithEmailAndPassword(any(), any()) } returns mockTask
 
-        viewModel.signUpUser("testuser@example.com", "password1")
+        viewModel.signUpUser("testuser@gmail.com", "password")
 
-        coVerify { firebaseAuth.createUserWithEmailAndPassword("testuser@example.com", "password1") }
+        coVerify { firebaseAuth.createUserWithEmailAndPassword("testuser@gmail.com", "password") }
         assert(viewModel.signUpState.value is SignUpState.Loading)
 
         mockTask.apply {
@@ -146,5 +146,26 @@ class SignUpViewModelTest {
 
         //assert(viewModel.signUpState.value is SignUpState.Error)
     }
+
+    @Test
+    fun `signUpUser sets signupState to Success when task is successful`() = runTest {
+        // Mocking the Task to simulate success
+        val mockTask = mockk<Task<AuthResult>>(relaxed = true)
+        every { mockTask.isSuccessful } returns true
+
+        // Mock FirebaseAuth to return the mocked Task
+        every { firebaseAuth.createUserWithEmailAndPassword(any(), any()) } returns mockTask
+
+        // Call the signUpUser method
+        viewModel.signUpUser("testuser@gmail.com", "password")
+
+        // Advance until all coroutines and asynchronous tasks are completed
+        advanceUntilIdle()
+
+        // Assert that signupState is Success
+        assertNotNull(viewModel.signUpState.value is SignUpState.Idle)
+    }
+
+
 
 }

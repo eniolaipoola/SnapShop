@@ -1,6 +1,5 @@
 package com.tei.snapshop.feature_authentication.sign_up
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -105,17 +104,13 @@ class SignUpViewModel @Inject constructor(
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             signUpState.value = SignUpState.Success
-                            Log.d("SignUpTest", "Signup succeeded")
                         } else {
                             signUpState.value = SignUpState.Error(task.exception?.message ?: "Signup failed")
-                            Log.d("SignUpTest", "Signup failed: ${task.exception?.message}")
                         }
                     }
             } catch (exception: Exception) {
                 signUpState.value = SignUpState.Error(exception.message ?: "Unexpected error occurred")
-                Log.d("SignUpTest", "Exception: ${exception.message}")
             }
-
         }
     }
 

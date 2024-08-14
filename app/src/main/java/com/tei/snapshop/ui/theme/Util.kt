@@ -97,7 +97,7 @@ fun formatDateString(dateString: String): String {
 }
 
 
-class DateTransformation() : VisualTransformation {
+class DateTransformation : VisualTransformation {
     override fun filter(text: AnnotatedString): TransformedText {
         return dateFilter(text)
     }

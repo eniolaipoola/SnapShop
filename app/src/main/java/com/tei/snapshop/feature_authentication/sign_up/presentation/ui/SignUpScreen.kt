@@ -170,7 +170,7 @@ fun SignUpContent(
                 SocialAuthButtons(modifier = modifier.fillMaxWidth(),
                     onClick = { },
                     googleButtonClicked = {},
-                    firebaseButtonClicked = {},
+                    facebookButtonClicked = {},
                     lineText = stringResource(R.string.or_sign_in)
                 )
 
