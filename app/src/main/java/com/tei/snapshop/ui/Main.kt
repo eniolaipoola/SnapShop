@@ -1,13 +1,13 @@
 package com.tei.snapshop.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.tei.snapshop.feature_splashscreen.SplashScreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.tei.snapshop.feature_onboarding.OnboardingPage
-import com.tei.snapshop.feature_landing_page.LandingPageScreen
+import com.tei.snapshop.feature_landing_page.LandingPage
 
 /**
  * Class Description
@@ -15,23 +15,23 @@ import com.tei.snapshop.feature_landing_page.LandingPageScreen
  * Copyright (c). All rights reserved
  */
 @Composable
-fun AppMainScreen(startDestination: String) {
-    val navController = rememberNavController()
+fun AppMainScreen() {
     val systemUiController = rememberSystemUiController()
 
-    NavHost(navController = navController, startDestination = startDestination) {
-
-        composable(NavScreen.SplashScreen.route) {
-            SplashScreen()
-        }
-
-        composable(NavScreen.OnboardingScreen.route) {
-            OnboardingPage()
-        }
+    val navController = rememberNavController()
+    NavHost(
+        navController = navController,
+        startDestination = NavScreen.AuthNav.route
+    ){
+        authenticationNav(navController)
 
         composable(NavScreen.LandingPage.route) {
-            LandingPageScreen()
+            LandingPage()
         }
+    }
 
+    LaunchedEffect(Unit) {
+        systemUiController.setStatusBarColor(Color.Black)
+        systemUiController.setNavigationBarColor(Color.Transparent)
     }
 }

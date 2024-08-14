@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -77,9 +78,18 @@ dependencies {
     //logging
     implementation(libs.timber)
 
+    //coil
+    implementation(libs.coil.compose)
+
     implementation(libs.androidx.preference.ktx)
 
     implementation(libs.splashscreen)
+
+    //firebase
+    implementation("com.google.firebase:firebase-analytics:22.0.2")
+    implementation("com.google.firebase:firebase-auth:23.0.0")
+    implementation("com.facebook.android:facebook-login:latest.release")
+
 
 
     //Unit / Implementation test
