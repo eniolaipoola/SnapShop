@@ -78,7 +78,7 @@ fun SignUpContent(
 
     val passwordVisibility by remember { viewModel.isPasswordVisible }
 
-    val signupState by remember { viewModel.signupState }
+    val signupState by remember { viewModel.signUpState }
     val context = LocalContext.current
 
     when (signupState) {

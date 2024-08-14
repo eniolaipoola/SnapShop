@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 val localProperties = Properties()
@@ -82,6 +83,7 @@ dependencies {
     //hilt
     implementation(libs.hilt)
     implementation(libs.hilt.compose.navigation)
+    implementation(libs.androidx.junit.ktx)
     ksp(libs.hilt.android.compiler)
 
     //retrofit
@@ -104,15 +106,17 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth)
     implementation(libs.facebook.login)
-
-
+    implementation(libs.firebase.crashlytics)
 
     //Unit / Implementation test
-    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.junit)
 }

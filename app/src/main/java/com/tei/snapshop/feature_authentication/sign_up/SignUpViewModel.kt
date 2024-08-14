@@ -1,5 +1,6 @@
 package com.tei.snapshop.feature_authentication.sign_up
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,10 +22,11 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val dispatcher: DispatcherProvider,
-    private val repository: SignUpRepository
+    private val repository: SignUpRepository,
+    private val firebaseAuth: FirebaseAuth
 ) : ViewModel() {
 
-    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+   // private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     var email = mutableStateOf("")
         private set
@@ -52,7 +54,7 @@ class SignUpViewModel @Inject constructor(
 
     var isConfirmPasswordVisible = mutableStateOf(false)
         private set
-    var signupState = mutableStateOf<SignUpState>(SignUpState.Idle)
+    var signUpState = mutableStateOf<SignUpState>(SignUpState.Idle)
         private set
 
     fun onEmailChanged(emailValue: String) {
@@ -97,18 +99,21 @@ class SignUpViewModel @Inject constructor(
 
     fun signUpUser(email: String, password: String) {
         viewModelScope.launch {
-            signupState.value = SignUpState.Loading
+            signUpState.value = SignUpState.Loading
             try {
                 firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            signupState.value = SignUpState.Success
+                            signUpState.value = SignUpState.Success
+                            Log.d("SignUpTest", "Signup succeeded")
                         } else {
-                            signupState.value = SignUpState.Error(task.exception?.message ?: "Signup failed")
+                            signUpState.value = SignUpState.Error(task.exception?.message ?: "Signup failed")
+                            Log.d("SignUpTest", "Signup failed: ${task.exception?.message}")
                         }
                     }
             } catch (exception: Exception) {
-                signupState.value = SignUpState.Error(exception.message ?: "Unexpected error occurred")
+                signUpState.value = SignUpState.Error(exception.message ?: "Unexpected error occurred")
+                Log.d("SignUpTest", "Exception: ${exception.message}")
             }
 
         }
