@@ -54,9 +54,4 @@
     <string name="cart">Cart</string>
     <string name="product_details">Product Details</string>
     <string name="checkout">Checkout</string>
-
-    <!--Facebook Credentials-->
-    <string name="facebook_app_id">2187583964958987</string>
-    <string name="fb_login_protocol_scheme">fb2187583964958987</string>
-    <string name="facebook_client_token">4b52ea5eec12517e9bf9f6d1d6a94e38</string>
 </resources>

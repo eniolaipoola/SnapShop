@@ -1,9 +1,17 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     id("com.google.gms.google-services")
+}
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
 }
 
 android {
@@ -21,6 +29,13 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        // Set manifest placeholders
+        manifestPlaceholders["facebookAppId"] = localProperties["facebookAppId"] as Any
+        manifestPlaceholders["facebookClientId"] = localProperties["facebookClientId"] as Any
+        manifestPlaceholders["facebookLoginProtocolScheme"] = localProperties["fbLoginProtocolScheme"] as Any
+
+
     }
 
     buildTypes {
@@ -86,9 +101,9 @@ dependencies {
     implementation(libs.splashscreen)
 
     //firebase
-    implementation("com.google.firebase:firebase-analytics:22.0.2")
-    implementation("com.google.firebase:firebase-auth:23.0.0")
-    implementation("com.facebook.android:facebook-login:latest.release")
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth)
+    implementation(libs.facebook.login)
 
 
 

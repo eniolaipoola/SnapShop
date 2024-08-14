@@ -46,7 +46,7 @@ import com.tei.snapshop.ui.theme.AppTypography
 import com.tei.snapshop.ui.theme.shapes
 
 /**
- * Class Description
+ * SignUp Compose screen
  * Created by Eniola Ipoola on 10/08/2024.
  * Copyright (c). All rights reserved
  */
