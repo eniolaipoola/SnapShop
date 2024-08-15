@@ -14,14 +14,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -31,6 +28,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -40,15 +39,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.tei.snapshop.R
 import com.tei.snapshop.feature_products.ProductViewModel
 import com.tei.snapshop.feature_products.data.Product
+import com.tei.snapshop.ui.ErrorView
+import com.tei.snapshop.ui.LoadingView
 import com.tei.snapshop.ui.theme.AppTypography
 import com.tei.snapshop.ui.theme.shapes
 
@@ -61,20 +61,28 @@ import com.tei.snapshop.ui.theme.shapes
 @Composable
 fun ProductScreen(
     viewModel: ProductViewModel = hiltViewModel(),
-    onClick: () -> Unit,
-    padding: PaddingValues
+    onClick: (Product) -> Unit,
+    padding: PaddingValues,
+    modifier: Modifier
 ) {
     val searchQuery by remember { viewModel.searchQuery }
 
+    val products by viewModel.products.collectAsState()
+    val error by viewModel.error.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchInitialProducts()
+    }
+
     Surface(
         color = Color.White,
-        modifier = Modifier
+        modifier = modifier
             .padding(padding)
             .fillMaxSize()
             .background(Color.White)
             .padding(16.dp)
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = modifier.fillMaxSize()) {
             Column(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -85,7 +93,7 @@ fun ProductScreen(
                     onValueChange = viewModel::onSearchQueryChanged ,
                     label = { Text(text = stringResource(R.string.search),
                         style = AppTypography.bodySmall) },
-                    modifier = Modifier
+                    modifier = modifier
                         .fillMaxWidth(),
                     shape = shapes.medium,
                     singleLine = true,
@@ -112,19 +120,26 @@ fun ProductScreen(
                         }
                     }
                 )
-                Spacer(modifier = Modifier.height(10.dp))
+
+                if(error != null) {
+                    ErrorView(errorMessage = error.toString(), modifier = modifier)
+                }
+
+                Spacer(modifier = modifier.height(10.dp))
                 //horizontal category recyclerview
-                ProductCategory()
-                Spacer(modifier = Modifier.height(10.dp))
+                ProductCategory(modifier)
+                Spacer(modifier = modifier.height(10.dp))
                 //vertical product recyclerview
-                ProductItemGrid(onClick)
+                ProductListGrid(products, onClick = {
+                              onClick(it)
+                }, modifier)
             }
         }
     }
 }
 
 @Composable
-fun ProductCategory() {
+fun ProductCategory(modifier: Modifier) {
     val categories = listOf("All", "Woman", "Man", "Kids")
 
     LazyRow(
@@ -133,7 +148,7 @@ fun ProductCategory() {
     ) {
         items(categories.size) { index ->
             Card(
-                modifier = Modifier
+                modifier = modifier
                     .background(color = colorResource(id = R.color.neutral_100))
                     .wrapContentSize()
                     .border(shape = shapes.large, width = 0.5.dp, color = colorResource(id = R.color.neutral_200)),
@@ -144,7 +159,7 @@ fun ProductCategory() {
             ) {
                 Text(
                     text = categories[index],
-                    modifier = Modifier.padding(12.dp),
+                    modifier = modifier.padding(12.dp),
                     color = colorResource(id = R.color.neutral_500),
                 )
             }
@@ -153,108 +168,117 @@ fun ProductCategory() {
 }
 
 @Composable
-fun ProductItemGrid(onClick: () -> Unit) {
-    val products = listOf(
-        Product(1,"Jacket", "$100", description = "Product", "https://i.pravatar.cc/", "Men"),
-        Product(2, name ="Pant", price = "$20", description = "Product", imageUrl = "https://i.pravatar.cc/", category = "Women"),
-        Product(3,"Jacket", "$80", description = "Product","https://i.pravatar.cc/", "kids"),
-        Product(4,"Dress", "$50", description = "Product","https://i.pravatar.cc/", category = "Men")
-    )
+fun ProductListGrid(
+    products: List<Product>,
+    onClick: (Product) -> Unit,
+    modifier: Modifier,
+    viewModel: ProductViewModel = hiltViewModel()
+) {
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(products.size) { index ->
-            ProductCard(product = products[index], onClick)
+    if(products.isNotEmpty()) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(products.size) {
+                index ->
+                ProductCard(product = products[index], onProductClicked = {
+                         onClick(products[index])
+                },
+                    modifier)
+                // Load next batch when reaching the end of the list
+                if (index == products.size - 1) {
+                    viewModel.loadNextBatch()
+                }
+            }
         }
+    } else {
+        // Show a loading indicator while fetching the products
+        LoadingView(modifier = modifier)
     }
+
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProductCardPrev() {
+    val product =  Product(1,"Jacket", 100.99, description = "Product",
+        "https://i.pravatar.cc/", "Men", null)
+    ProductCard(product, {}, Modifier)
+
 }
 
 @Composable
-fun ProductCard(product: Product, onProductClicked: () -> Unit) {
+fun ProductCard(product: Product, onProductClicked: () -> Unit, modifier: Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .height(250.dp)
-            .fillMaxWidth()
+            .width(150.dp)
+            .background(colorResource(id = R.color.neutral_200))
             .clickable {
                 onProductClicked()
             }
     ) {
-        // Image as the background
-        Image(
-            painter = rememberAsyncImagePainter(
-                model = product.imageUrl,
-                placeholder = painterResource(R.drawable.image_placeholder),
-                error = painterResource(R.drawable.icon_error)
-            ),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize(),
-            alpha = 0.7F,
-            contentScale = ContentScale.FillHeight // ContentScale.Crop makes sure the image fills the entire box
-        )
-
-        Column(
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.Start
-        ) {
-            // Top content (Like button)
-            Icon(
-                painter = painterResource(id = R.drawable.icon_like),
-                tint = Color.White,
-                contentDescription = stringResource(R.string.like_button),
-                modifier = Modifier
-                    .size(24.dp)
-                    .align(Alignment.End)
-                    .background(Color.Black.copy(alpha = 0.5F), shape = CircleShape)
-                    .padding(4.dp)
+        Column {
+            // Product image
+            Image(
+                painter = rememberAsyncImagePainter(
+                    model = remember {
+                        product.image
+                    },
+                    placeholder = painterResource(R.drawable.image_placeholder),
+                    error = painterResource(R.drawable.icon_error)
+                ),
+                contentDescription = null,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .height(150.dp)
+                    .padding(4.dp),
+                contentScale = ContentScale.Crop // ContentScale.Crop makes sure the image fills the entire box
             )
 
-            // Bottom content (Name and Price, Cart Icon)
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column {
-                    Text(
-                        text = product.name,
-                        color = Color.Black,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
-                        style = AppTypography.bodyMedium,
-                        textAlign = TextAlign.Left
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = modifier.height(8.dp))
 
-                    Text(
-                        text = product.price,
-                        color = Color.Black,
-                        fontSize = 16.sp,
-                        style = AppTypography.bodySmall,
-                        textAlign = TextAlign.Left
-                    )
-                }
-
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_cart),
-                    contentDescription = "Add to Cart",
-                    tint = Color.White,
-                    modifier = Modifier
-                        .size(24.dp)
-                        .background(Color.Black.copy(alpha = 0.5F), shape = CircleShape)
-                        .padding(4.dp)
-                        .align(Alignment.CenterVertically)
+            // Product details
+            Column(modifier = modifier.padding(4.dp)) {
+                Text(
+                    text = product.title,
+                    style = AppTypography.bodySmall,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                    color = colorResource(id = R.color.neutral_500)
                 )
+
+                Spacer(modifier = modifier.height(4.dp))
+
+                // Shopping cart button
+                Row(
+                    modifier = modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "$" + product.price,
+                        style = AppTypography.bodySmall,
+                        color = Color.Black
+                    )
+                    
+                    IconButton(onClick = {
+                        // add to cart functionality
+                    }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.icon_cart),
+                            contentDescription = null,
+                            modifier = modifier
+                                .width(20.dp)
+                                .height(20.dp),
+                            tint = Color.Black
+                        )
+                    }
+                }
             }
         }
     }
-
-
 }

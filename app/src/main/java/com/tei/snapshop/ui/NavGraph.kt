@@ -12,6 +12,7 @@ import com.tei.snapshop.feature_authentication.sign_in.presentation.ui.SignInScr
 import com.tei.snapshop.feature_authentication.sign_up.presentation.ui.SignUpScreen
 import com.tei.snapshop.feature_cart.presentation.CartScreen
 import com.tei.snapshop.feature_onboarding.OnboardingPage
+import com.tei.snapshop.feature_products.data.Product
 import com.tei.snapshop.feature_products.presentation.ProductDetailsScreen
 import com.tei.snapshop.feature_products.presentation.ProductScreen
 import com.tei.snapshop.feature_settings.presentation.SettingScreen
@@ -67,9 +68,14 @@ fun HomeNavGraph(
         startDestination = NavScreen.Product.route
     ) {
         composable(route = NavScreen.Product.route){
-            ProductScreen(padding = padding, onClick = {
-                navController.navigate(NavScreen.ProductDetail.route)
-            })
+            ProductScreen(
+                padding = padding,
+                onClick = { product ->
+                    navController.currentBackStackEntry?.savedStateHandle?.set("product", product)
+                    navController.navigate(NavScreen.ProductDetail.route
+                    )},
+                modifier = Modifier
+            )
         }
 
         composable(route = NavScreen.Cart.route){
@@ -77,16 +83,19 @@ fun HomeNavGraph(
 
             })
         }
-
         composable(route = NavScreen.Settings.route){
             SettingScreen(paddingValues = padding, backHandler = {
                 navController.navigate(NavScreen.Settings.route)
             }, modifier = Modifier)
         }
+
         composable(route = NavScreen.ProductDetail.route){
-            ProductDetailsScreen(modifier = Modifier, padding, backHandler =  {
-                navController.navigate(NavScreen.Product.route)
-            })
+            val product = navController.previousBackStackEntry?.savedStateHandle?.get<Product>("product")
+            ProductDetailsScreen(
+                modifier = Modifier,
+                padding,
+                backHandler = { navController.navigate(NavScreen.Product.route)},
+                product = product)
         }
     }
 }

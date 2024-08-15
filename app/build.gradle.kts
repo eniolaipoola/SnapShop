@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.hilt)
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("kotlin-parcelize")
 }
 
 val localProperties = Properties()
@@ -88,8 +89,13 @@ dependencies {
     implementation(libs.hilt)
     implementation(libs.hilt.compose.navigation)
     implementation(libs.androidx.junit.ktx)
-    //androidTestImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     ksp(libs.hilt.android.compiler)
+
+    //Room
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
 
     //retrofit
     implementation(libs.retrofit)

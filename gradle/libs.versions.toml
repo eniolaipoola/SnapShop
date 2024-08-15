@@ -23,6 +23,7 @@ mockk = "1.13.7"
 navigationCompose = "2.7.7"
 google-accompanist = "0.28.0"
 robolectric = "4.10"
+roomRuntime = "2.6.1"
 splashscreen = "1.0.1"
 timber = "5.0.1"
 retrofit = "2.9.0"
@@ -30,12 +31,15 @@ preferenceKtx = "1.2.1"
 okHttp = "4.11.0"
 loggingInterceptor = "4.11.0"
 ksp = "1.9.23-1.0.20"
-kotlinxCoroutinesAndroid = "1.8.1"
 hilt-compose-navigation = "1.2.0"
 junitKtx = "1.2.1"
+roomCommon = "2.6.1"
+roomCompiler = "2.6.1"
+roomKtx = "2.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 facebook-login = { module = "com.facebook.android:facebook-login", version.ref = "facebookLogin" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebaseAnalytics" }
@@ -74,6 +78,9 @@ okhttp-test = {group = "com.squareup.okhttp3", name = "mockwebserver", version.r
 timber = { group = "com.jakewharton.timber",  name = "timber", version.ref = "timber" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
 androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
+androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
