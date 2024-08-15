@@ -19,9 +19,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -31,6 +29,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -49,6 +49,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.tei.snapshop.R
 import com.tei.snapshop.feature_products.ProductViewModel
 import com.tei.snapshop.feature_products.data.Product
+import com.tei.snapshop.ui.LoadingView
 import com.tei.snapshop.ui.theme.AppTypography
 import com.tei.snapshop.ui.theme.shapes
 
@@ -62,19 +63,26 @@ import com.tei.snapshop.ui.theme.shapes
 fun ProductScreen(
     viewModel: ProductViewModel = hiltViewModel(),
     onClick: () -> Unit,
-    padding: PaddingValues
+    padding: PaddingValues,
+    modifier: Modifier
 ) {
     val searchQuery by remember { viewModel.searchQuery }
 
+    val products by viewModel.products.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchProducts()
+    }
+
     Surface(
         color = Color.White,
-        modifier = Modifier
+        modifier = modifier
             .padding(padding)
             .fillMaxSize()
             .background(Color.White)
             .padding(16.dp)
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = modifier.fillMaxSize()) {
             Column(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -85,7 +93,7 @@ fun ProductScreen(
                     onValueChange = viewModel::onSearchQueryChanged ,
                     label = { Text(text = stringResource(R.string.search),
                         style = AppTypography.bodySmall) },
-                    modifier = Modifier
+                    modifier = modifier
                         .fillMaxWidth(),
                     shape = shapes.medium,
                     singleLine = true,
@@ -112,19 +120,19 @@ fun ProductScreen(
                         }
                     }
                 )
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = modifier.height(10.dp))
                 //horizontal category recyclerview
-                ProductCategory()
-                Spacer(modifier = Modifier.height(10.dp))
+                ProductCategory(modifier)
+                Spacer(modifier = modifier.height(10.dp))
                 //vertical product recyclerview
-                ProductItemGrid(onClick)
+                ProductListGrid(products, onClick, modifier)
             }
         }
     }
 }
 
 @Composable
-fun ProductCategory() {
+fun ProductCategory(modifier: Modifier) {
     val categories = listOf("All", "Woman", "Man", "Kids")
 
     LazyRow(
@@ -133,7 +141,7 @@ fun ProductCategory() {
     ) {
         items(categories.size) { index ->
             Card(
-                modifier = Modifier
+                modifier = modifier
                     .background(color = colorResource(id = R.color.neutral_100))
                     .wrapContentSize()
                     .border(shape = shapes.large, width = 0.5.dp, color = colorResource(id = R.color.neutral_200)),
@@ -144,7 +152,7 @@ fun ProductCategory() {
             ) {
                 Text(
                     text = categories[index],
-                    modifier = Modifier.padding(12.dp),
+                    modifier = modifier.padding(12.dp),
                     color = colorResource(id = R.color.neutral_500),
                 )
             }
@@ -153,30 +161,30 @@ fun ProductCategory() {
 }
 
 @Composable
-fun ProductItemGrid(onClick: () -> Unit) {
-    val products = listOf(
-        Product(1,"Jacket", "$100", description = "Product", "https://i.pravatar.cc/", "Men"),
-        Product(2, name ="Pant", price = "$20", description = "Product", imageUrl = "https://i.pravatar.cc/", category = "Women"),
-        Product(3,"Jacket", "$80", description = "Product","https://i.pravatar.cc/", "kids"),
-        Product(4,"Dress", "$50", description = "Product","https://i.pravatar.cc/", category = "Men")
-    )
+fun ProductListGrid(products: List<Product>, onClick: () -> Unit, modifier: Modifier) {
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(products.size) { index ->
-            ProductCard(product = products[index], onClick)
+    if(products.isNotEmpty()) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(products.size) { index ->
+                ProductCard(product = products[index], onClick, modifier)
+            }
         }
+    } else {
+        // Show a loading indicator while fetching the products
+        LoadingView(modifier = modifier)
     }
+
 }
 
 @Composable
-fun ProductCard(product: Product, onProductClicked: () -> Unit) {
+fun ProductCard(product: Product, onProductClicked: () -> Unit, modifier: Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .height(250.dp)
             .fillMaxWidth()
             .clickable {
@@ -186,19 +194,19 @@ fun ProductCard(product: Product, onProductClicked: () -> Unit) {
         // Image as the background
         Image(
             painter = rememberAsyncImagePainter(
-                model = product.imageUrl,
+                model = product.image,
                 placeholder = painterResource(R.drawable.image_placeholder),
                 error = painterResource(R.drawable.icon_error)
             ),
             contentDescription = null,
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize(),
             alpha = 0.7F,
             contentScale = ContentScale.FillHeight // ContentScale.Crop makes sure the image fills the entire box
         )
 
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .padding(8.dp)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween,
@@ -209,7 +217,7 @@ fun ProductCard(product: Product, onProductClicked: () -> Unit) {
                 painter = painterResource(id = R.drawable.icon_like),
                 tint = Color.White,
                 contentDescription = stringResource(R.string.like_button),
-                modifier = Modifier
+                modifier = modifier
                     .size(24.dp)
                     .align(Alignment.End)
                     .background(Color.Black.copy(alpha = 0.5F), shape = CircleShape)
@@ -218,23 +226,23 @@ fun ProductCard(product: Product, onProductClicked: () -> Unit) {
 
             // Bottom content (Name and Price, Cart Icon)
             Row(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
                     Text(
-                        text = product.name,
+                        text = product.title,
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
                         style = AppTypography.bodyMedium,
                         textAlign = TextAlign.Left
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = modifier.height(4.dp))
 
                     Text(
-                        text = product.price,
+                        text = product.price.toString(),
                         color = Color.Black,
                         fontSize = 16.sp,
                         style = AppTypography.bodySmall,
@@ -246,7 +254,7 @@ fun ProductCard(product: Product, onProductClicked: () -> Unit) {
                     painter = painterResource(id = R.drawable.icon_cart),
                     contentDescription = "Add to Cart",
                     tint = Color.White,
-                    modifier = Modifier
+                    modifier = modifier
                         .size(24.dp)
                         .background(Color.Black.copy(alpha = 0.5F), shape = CircleShape)
                         .padding(4.dp)

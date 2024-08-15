@@ -37,7 +37,7 @@ class NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl("https://api.stage.ajobox.com/")
+            .baseUrl("https://fakestoreapi.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

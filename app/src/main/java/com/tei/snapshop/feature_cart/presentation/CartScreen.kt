@@ -119,9 +119,10 @@ fun CartScreen(
 @Composable
 fun CartItem(modifier: Modifier) {
     val cart = listOf(
-        Product(1,"Jacket", "$100", description = "Product", "https://i.pravatar.cc/", "Men"),
-        Product(1,"Jacket", "$100", description = "Product", "https://i.pravatar.cc/", "Men"),
-        Product(1,"Jacket", "$100", description = "Product", "https://i.pravatar.cc/", "Men")
+        Product(1,"Jacket", 100.0, description = "Product", "https://i.pravatar.cc/", "Men", null),
+        Product(2,  "Pant", price = 20.0, description = "Product",  "https://i.pravatar.cc/",  "Women", null),
+        Product(3,"Jacket", 80.0, description = "Product","https://i.pravatar.cc/", "kids", null),
+        Product(4,"Dress", 50.0, description = "Product","https://i.pravatar.cc/", category = "Men", null)
     )
 
     LazyVerticalGrid(
@@ -151,7 +152,7 @@ fun CartCard(product: Product, modifier: Modifier) {
         ) {
             Image(
                 painter = rememberAsyncImagePainter(
-                    model = product.imageUrl,
+                    model = product.image,
                     placeholder = painterResource(R.drawable.image_placeholder),
                     error = painterResource(R.drawable.icon_error)
                 ),
@@ -172,7 +173,7 @@ fun CartCard(product: Product, modifier: Modifier) {
             ) {
 
                 Text(
-                    text = product.name,
+                    text = product.title,
                     textAlign = TextAlign.Start,
                     modifier = modifier
                         .padding(top = 4.dp)
@@ -206,7 +207,7 @@ fun CartCard(product: Product, modifier: Modifier) {
                 Spacer(modifier.height(14.dp))
 
                 Text(
-                    text = product.price,
+                    text = product.price.toString(),
                     color = Color.Black,
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,

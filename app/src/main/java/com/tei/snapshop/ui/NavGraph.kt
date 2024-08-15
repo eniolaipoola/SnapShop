@@ -69,7 +69,7 @@ fun HomeNavGraph(
         composable(route = NavScreen.Product.route){
             ProductScreen(padding = padding, onClick = {
                 navController.navigate(NavScreen.ProductDetail.route)
-            })
+            }, modifier = Modifier)
         }
 
         composable(route = NavScreen.Cart.route){
