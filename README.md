@@ -7,7 +7,12 @@ and Material Design based on the MVVM architecture. The product technical docume
 </p>
 
 <p align="start">
-<img src="previews/home.png"  align="start" width="320"/></p>
+<img src="previews/login.png" align="start" width="320"/>
+<img src="previews/signUp.png" align="start"  width="320"/>
+<img src="previews/home.png"   width="320"/>
+</p>
+
+<img src="previews/preview.gif" align="right" width="320"/>
 
 ## Tech stack & libraries
 - Minimum SDK level 24.
@@ -32,7 +37,7 @@ and Material Design based on the MVVM architecture. The product technical docume
 The architecture of **SnapShop** is structured into two distinct layers: the UI layer and the data layer. 
 
 ### Architecture Overview
-![architecture](figure/image1.png)
+<img src="figure/image1.png" width="320"/>
 
 ## FakeStore API
 SnapShop using the [FakeStoreAPI](https://github.com/keikaavousi/fake-store-api/) for constructing RESTful API.<br>
