@@ -1,8 +1,19 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+    id("kotlin-parcelize")
+}
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
 }
 
 android {
@@ -10,7 +21,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.eniola.snapshop"
+        applicationId = "com.tei.snapshop"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -20,6 +31,13 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        // Set manifest placeholders
+        manifestPlaceholders["facebookAppId"] = localProperties["facebookAppId"] as Any
+        manifestPlaceholders["facebookClientId"] = localProperties["facebookClientId"] as Any
+        manifestPlaceholders["facebookLoginProtocolScheme"] = localProperties["fbLoginProtocolScheme"] as Any
+
+
     }
 
     buildTypes {
@@ -44,6 +62,10 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            listOf(
+                "META-INF/LICENSE.md",
+                "META-INF/LICENSE-notice.md",
+            )
         }
     }
 }
@@ -66,7 +88,14 @@ dependencies {
     //hilt
     implementation(libs.hilt)
     implementation(libs.hilt.compose.navigation)
+    implementation(libs.androidx.junit.ktx)
     ksp(libs.hilt.android.compiler)
+
+    //Room
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
 
     //retrofit
     implementation(libs.retrofit)
@@ -77,17 +106,34 @@ dependencies {
     //logging
     implementation(libs.timber)
 
+    //coil
+    implementation(libs.coil.compose)
+
     implementation(libs.androidx.preference.ktx)
 
     implementation(libs.splashscreen)
 
+    //firebase
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth)
+    implementation(libs.facebook.login)
+    implementation(libs.firebase.crashlytics)
 
     //Unit / Implementation test
-    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.junit)
+    // For Mockito
+    testImplementation(libs.mockito.core)
+    // For Mockito JUnit Runner
+    testImplementation(libs.mockito.junit.jupiter)
+    // For Android instrumentation tests with Mockito
+    androidTestImplementation(libs.mockito.android)
 }
