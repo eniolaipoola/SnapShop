@@ -6,12 +6,8 @@ and Material Design based on the MVVM architecture. The product technical docume
 [here](https://docs.google.com/document/d/1mDm4si49bHxUk8xRmOo1fOWLm-Ar6loHMEFIEy06vbA/edit?usp=sharing)
 </p>
 
-<p align="center">
-<img src="previews/login.png"/>
-<img src="previews/signUp.png"/>
-</p>
-
-<img src="previews/preview.gif" align="right" width="320"/>
+<p align="start">
+<img src="previews/home.png"  align="start" width="320"/></p>
 
 ## Tech stack & libraries
 - Minimum SDK level 24.
