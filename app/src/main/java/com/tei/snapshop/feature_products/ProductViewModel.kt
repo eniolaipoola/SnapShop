@@ -3,7 +3,6 @@ package com.tei.snapshop.feature_products
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.tei.snapshop.data.di.DispatcherProvider
-import com.tei.snapshop.feature_authentication.sign_in.data.repository.SignInRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -15,8 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(
-    private val dispatcher: DispatcherProvider,
-    private val repository: SignInRepository
+    private val dispatcher: DispatcherProvider
 ): ViewModel() {
 
     var searchQuery = mutableStateOf("")

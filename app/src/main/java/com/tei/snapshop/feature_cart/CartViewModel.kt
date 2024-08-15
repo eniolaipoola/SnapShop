@@ -10,5 +10,4 @@ import javax.inject.Inject
  * Copyright (c). All rights reserved
  */
 @HiltViewModel
-class CartViewModel @Inject constructor(): ViewModel() {
-}
+class CartViewModel @Inject constructor(): ViewModel()

@@ -46,7 +46,7 @@ import com.tei.snapshop.ui.theme.AppTypography
 import com.tei.snapshop.ui.theme.shapes
 
 /**
- * Class Description
+ * SignUp Compose screen
  * Created by Eniola Ipoola on 10/08/2024.
  * Copyright (c). All rights reserved
  */
@@ -78,7 +78,7 @@ fun SignUpContent(
 
     val passwordVisibility by remember { viewModel.isPasswordVisible }
 
-    val signupState by remember { viewModel.signupState }
+    val signupState by remember { viewModel.signUpState }
     val context = LocalContext.current
 
     when (signupState) {
@@ -170,7 +170,7 @@ fun SignUpContent(
                 SocialAuthButtons(modifier = modifier.fillMaxWidth(),
                     onClick = { },
                     googleButtonClicked = {},
-                    firebaseButtonClicked = {},
+                    facebookButtonClicked = {},
                     lineText = stringResource(R.string.or_sign_in)
                 )
 

@@ -176,7 +176,7 @@ fun SettingScreen(
                     .fillMaxWidth()
                     .clickable { /* Handle log out action */ }
                     .padding(vertical = 16.dp),
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                textAlign = TextAlign.Center
             )
 
         }

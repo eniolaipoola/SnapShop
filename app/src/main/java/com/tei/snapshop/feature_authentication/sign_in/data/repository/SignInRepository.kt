@@ -1,39 +1,22 @@
 package com.tei.snapshop.feature_authentication.sign_in.data.repository
 
-import com.tei.snapshop.data.di.DispatcherProvider
-import com.tei.snapshop.data.network.APIService
+import android.content.SharedPreferences
+import com.google.gson.Gson
+import com.tei.snapshop.feature_authentication.sign_in.data.User
 import javax.inject.Inject
 
 /**
- * Repository class for SignIn feature
+ * Class Description
  * Created by Eniola Ipoola on 20/05/2024.
  * Copyright (c). All rights reserved
  */
 
 class SignInRepository @Inject constructor(
-    private val apiService: APIService,
-    private val dispatcher: DispatcherProvider
+    private val sharedPreferences: SharedPreferences,
+    private val gson: Gson
 ){
-    /*fun loginUser(email: String, password: String) : Flow<Resource<LoginResponseData>> {
-        val loginInfo = LoginData(email, password)
-        return flow {
-            emit(Resource.Loading())
-            val response = cliqboxAPIService.loginUser(loginInfo)
-            when {
-                response.isSuccessful -> {
-                    val data = response.body()
-                    emit(Resource.Success(data))
-                }
-                else -> {
-                    if (response.errorBody() == null) {
-                        emit(Resource.Error("An error occurred"))
-                    } else {
-                        val error = response.errorBody()!!.getErrorObject<APIError>().message ?: "An error occurred"
-                        emit(Resource.Error(error))
-                    }
-                }
-            }
-        }.flowOn(dispatcher.io)
+    fun getUserData(): User? {
+        val userJson = sharedPreferences.getString("user_data", null)
+        return gson.fromJson(userJson, User::class.java)
     }
-*/
 }

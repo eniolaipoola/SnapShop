@@ -2,6 +2,7 @@ package com.tei.snapshop.feature_authentication.sign_in.presentation.ui
 
 import android.content.Context
 import android.content.ContextWrapper
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,7 @@ import com.tei.snapshop.R
 import com.tei.snapshop.feature_authentication.sign_in.presentation.SignInViewModel
 import com.tei.snapshop.ui.CustomAppButton
 import com.tei.snapshop.ui.EmailInput
+import com.tei.snapshop.ui.LoadingView
 import com.tei.snapshop.ui.PasswordInput
 import com.tei.snapshop.ui.theme.AppTypography
 
@@ -62,15 +64,34 @@ fun SignInContent(
         viewModel.isPasswordVisible
     }
     val isSignInButtonEnabled by remember { viewModel.isSignInButtonEnabled }
+    val signinState by remember { viewModel.signInState }
+
     val context = LocalContext.current
 
+    when (signinState) {
+        is SignInState.Idle -> {}
+        is SignInState.Loading -> {
+            LoadingView(modifier)
+        }
+        is SignInState.Success -> {
+            navigateToHomePage()
+        }
+        is SignInState.Error -> {
+            //show error toast
+            Toast.makeText(
+                context.getActivity(),
+                (signinState as SignInState.Error).message,
+                Toast.LENGTH_SHORT,
+            ).show()
+        }
+    }
 
     Surface(
         color = Color.White,
         modifier = modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(top = 32.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
+            .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
     ) {
 
         Box(modifier = Modifier.fillMaxSize()) {
@@ -133,12 +154,12 @@ fun SignInContent(
                 CustomAppButton(
                     modifier,
                     buttonText = stringResource(id = R.string.sign_in),
-                    enabled = true,
+                    enabled = isSignInButtonEnabled,
                     onButtonClicked = {
-                        navigateToHomePage()
+                        //navigateToHomePage()
+                        viewModel.signInUser(email, password)
                     }
                 )
-
             }
 
             Column(modifier = modifier
@@ -148,12 +169,8 @@ fun SignInContent(
                 SocialAuthButtons(modifier = modifier.fillMaxWidth(),
                     onClick = { },
                     googleButtonClicked = {},
-                    firebaseButtonClicked = {
-                        //facebook login
-                        /*val login = context.getActivity()
-                                ?.let { LoginManager.getInstance().logIn(it, CallbackManager.Factory.create(),
-                                    listOf("eniolaipoola@gmail.com"))
-                                } ?: Log.d("tag", "Context not found")*/
+                    facebookButtonClicked = {
+
                     },
                     stringResource(R.string.or)
                 )
