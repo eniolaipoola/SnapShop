@@ -2,12 +2,13 @@
 
 <p align="center">  
 SnapShop demonstrates modern Android development with Jetpack Compose, Hilt, Coroutines, Jetpack (Room, ViewModel), 
-and Material Design based on the MVVM architecture. The product technical documentation, features and feature status can be found here
+and Material Design based on the MVVM architecture. The product technical documentation, features and feature status can be found
+[here](https://docs.google.com/document/d/1mDm4si49bHxUk8xRmOo1fOWLm-Ar6loHMEFIEy06vbA/edit?usp=sharing)
 </p>
-[Documentation](https://docs.google.com/document/d/1mDm4si49bHxUk8xRmOo1fOWLm-Ar6loHMEFIEy06vbA/edit?usp=sharing)
 
 <p align="center">
-<img src="previews/screenshot.png"/>
+<img src="previews/login.png"/>
+<img src="previews/signUp.png"/>
 </p>
 
 <img src="previews/preview.gif" align="right" width="320"/>

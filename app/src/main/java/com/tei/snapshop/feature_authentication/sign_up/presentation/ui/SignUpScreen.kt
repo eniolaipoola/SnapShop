@@ -253,7 +253,7 @@ fun ConfirmPasswordInput(
         onValueChange = onPasswordChange,
         label = { Text(text = stringResource(R.string.confirm_password),
             style = AppTypography.bodySmall,
-            color = colorResource(id = R.color.neutral_400)
+            color = colorResource(id = R.color.text_color)
         )},
         modifier = modifier
             .fillMaxWidth(),
