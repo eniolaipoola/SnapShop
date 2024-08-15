@@ -37,7 +37,7 @@ and Material Design based on the MVVM architecture. The product technical docume
 The architecture of **SnapShop** is structured into two distinct layers: the UI layer and the data layer. 
 
 ### Architecture Overview
-![architecture](figure/image1.png)
+<img src="figure/image1.png" width="320"/>
 
 ## FakeStore API
 SnapShop using the [FakeStoreAPI](https://github.com/keikaavousi/fake-store-api/) for constructing RESTful API.<br>
