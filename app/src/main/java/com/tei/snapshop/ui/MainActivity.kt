@@ -15,6 +15,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.tei.snapshop.feature_splashscreen.SplashScreenViewModel
@@ -35,9 +36,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SnapShopTheme {
+                val screen by splashViewModel.startDestination
                 Surface(modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background) {
-                    AppMainScreen()
+                    AppMainScreen(screen)
                 }
             }
         }

@@ -1,8 +1,10 @@
 package com.tei.snapshop.feature_authentication.sign_up
 
+import android.content.SharedPreferences
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import com.tei.snapshop.data.di.DispatcherProvider
 import com.tei.snapshop.feature_authentication.sign_up.data.SignUpRepository
 import com.tei.snapshop.feature_authentication.sign_up.presentation.ui.SignUpState
@@ -44,6 +46,12 @@ class SignUpViewModelTest {
     @MockK
     private lateinit var firebaseAuth: FirebaseAuth
 
+    @MockK
+    private lateinit var gson: Gson
+
+    @MockK
+    private lateinit var sharedPreferences: SharedPreferences
+
     private lateinit var viewModel: SignUpViewModel
 
     private val testDispatcher = UnconfinedTestDispatcher()
@@ -55,7 +63,7 @@ class SignUpViewModelTest {
 
         Dispatchers.setMain(testDispatcher)
 
-        viewModel = SignUpViewModel(dispatcher, repository, firebaseAuth)
+        viewModel = SignUpViewModel(dispatcher, repository, firebaseAuth, sharedPreferences, gson)
     }
     @After
     fun tearDown() {

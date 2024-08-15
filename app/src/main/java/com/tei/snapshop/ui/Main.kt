@@ -1,5 +1,6 @@
 package com.tei.snapshop.ui
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
@@ -15,13 +16,13 @@ import com.tei.snapshop.feature_landing_page.LandingPage
  * Copyright (c). All rights reserved
  */
 @Composable
-fun AppMainScreen() {
+fun AppMainScreen(startDestination: String) {
     val systemUiController = rememberSystemUiController()
 
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = NavScreen.AuthNav.route
+        startDestination = startDestination
     ){
         authenticationNav(navController)
 

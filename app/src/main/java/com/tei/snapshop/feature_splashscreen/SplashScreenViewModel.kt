@@ -5,6 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tei.snapshop.feature_authentication.sign_in.data.repository.SignInRepository
 import com.tei.snapshop.ui.NavScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,7 +17,9 @@ import javax.inject.Inject
  * Copyright (c). All rights reserved
  */
 @HiltViewModel
-class SplashScreenViewModel @Inject constructor(): ViewModel()
+class SplashScreenViewModel @Inject constructor(
+    private val repository: SignInRepository
+): ViewModel()
 {
     private val _isLoading : MutableState<Boolean> = mutableStateOf(true)
     val isLoading: State<Boolean> = _isLoading
@@ -26,8 +29,15 @@ class SplashScreenViewModel @Inject constructor(): ViewModel()
 
     init {
         viewModelScope.launch {
-            // there is a logged in user
-            _startDestination.value = NavScreen.AuthNav.route
+            val userData = repository.getUserData()
+            if(userData != null) {
+                // there is a logged in user, go to landing page
+                _startDestination.value = NavScreen.LandingPage.route
+            } else {
+                // there is no logged in user
+                _startDestination.value = NavScreen.AuthNav.route
+            }
+
         }
 
         _isLoading.value = true

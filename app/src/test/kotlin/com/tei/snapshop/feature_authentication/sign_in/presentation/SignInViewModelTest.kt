@@ -1,10 +1,11 @@
 package com.tei.snapshop.feature_authentication.sign_in.presentation
 
+import android.content.SharedPreferences
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import com.tei.snapshop.data.di.DispatcherProvider
-import com.tei.snapshop.feature_authentication.sign_in.data.repository.SignInRepository
 import com.tei.snapshop.feature_authentication.sign_in.presentation.ui.SignInState
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
@@ -33,13 +34,16 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class SignInViewModelTest {
     @MockK
-    private lateinit var repository: SignInRepository
+    private lateinit var sharedPreferences: SharedPreferences
 
     @MockK
     private lateinit var dispatcher: DispatcherProvider
 
     @MockK
     private lateinit var firebaseAuth: FirebaseAuth
+
+    @MockK
+    private lateinit var gson: Gson
 
     private lateinit var viewModel: SignInViewModel
 
@@ -51,7 +55,7 @@ class SignInViewModelTest {
 
         Dispatchers.setMain(testDispatcher)
 
-        viewModel = SignInViewModel(dispatcher, repository, firebaseAuth)
+        viewModel = SignInViewModel(dispatcher, firebaseAuth, sharedPreferences, gson)
     }
     @After
     fun tearDown() {

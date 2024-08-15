@@ -1,15 +1,20 @@
 package com.tei.snapshop.feature_authentication.sign_up
 
+import android.content.SharedPreferences
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import com.tei.snapshop.data.di.DispatcherProvider
+import com.tei.snapshop.feature_authentication.sign_in.data.User
+import com.tei.snapshop.feature_authentication.sign_in.presentation.SignInViewModel
 import com.tei.snapshop.feature_authentication.sign_up.data.SignUpRepository
 import com.tei.snapshop.feature_authentication.sign_up.presentation.ui.SignUpState
 import com.tei.snapshop.ui.theme.isValidEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -22,10 +27,10 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val dispatcher: DispatcherProvider,
     private val repository: SignUpRepository,
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
+    private val sharedPreferences: SharedPreferences,
+    private val gson: Gson
 ) : ViewModel() {
-
-   // private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     var email = mutableStateOf("")
         private set
@@ -104,12 +109,31 @@ class SignUpViewModel @Inject constructor(
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             signUpState.value = SignUpState.Success
+                            val firebaseUser = task.result?.user
+                            val user = firebaseUser.let {
+                                User(displayName = it?.displayName, email = it?.email,
+                                    phoneNumber = it?.phoneNumber, uid = it?.uid
+                                )
+                            }
+                            saveUserData(user)
                         } else {
                             signUpState.value = SignUpState.Error(task.exception?.message ?: "Signup failed")
                         }
                     }
             } catch (exception: Exception) {
                 signUpState.value = SignUpState.Error(exception.message ?: "Unexpected error occurred")
+            }
+        }
+    }
+
+    private fun saveUserData(user: User) {
+        val userJson = gson.toJson(user)
+        viewModelScope.launch {
+            withContext(dispatcher.io) {
+                sharedPreferences.edit().apply {
+                    putString(SignInViewModel.DATA, userJson)
+                    apply()
+                }
             }
         }
     }

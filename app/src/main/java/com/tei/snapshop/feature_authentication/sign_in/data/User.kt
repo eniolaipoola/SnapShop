@@ -7,7 +7,8 @@ package com.tei.snapshop.feature_authentication.sign_in.data
  */
 
 data class User(
-    val name: String,
-    val email: String,
-    val phoneNumber: String,
+    val displayName: String?,
+    val email: String?,
+    val phoneNumber: String?,
+    val uid: String?
 )

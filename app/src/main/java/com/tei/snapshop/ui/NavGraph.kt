@@ -11,10 +11,10 @@ import androidx.navigation.navigation
 import com.tei.snapshop.feature_authentication.sign_in.presentation.ui.SignInScreen
 import com.tei.snapshop.feature_authentication.sign_up.presentation.ui.SignUpScreen
 import com.tei.snapshop.feature_cart.presentation.CartScreen
-import com.tei.snapshop.feature_products.presentation.ProductScreen
-import com.tei.snapshop.feature_settings.presentation.SettingScreen
 import com.tei.snapshop.feature_onboarding.OnboardingPage
 import com.tei.snapshop.feature_products.presentation.ProductDetailsScreen
+import com.tei.snapshop.feature_products.presentation.ProductScreen
+import com.tei.snapshop.feature_settings.presentation.SettingScreen
 
 /**
  * Class that has both screen nav and graph nav across major features
