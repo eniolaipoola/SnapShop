@@ -12,4 +12,4 @@ import javax.inject.Inject
 class SignUpRepository @Inject constructor(
     private val apiService: APIService,
     private val dispatcher: DispatcherProvider
-)
+) {}

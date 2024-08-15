@@ -29,8 +29,7 @@ class SignInViewModel @Inject constructor(
 ) : ViewModel() {
 
     companion object {
-        const val .
-                DATA = "user_data"
+        const val DATA = "user_data"
     }
     var email = mutableStateOf("")
         private set
