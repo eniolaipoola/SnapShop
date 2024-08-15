@@ -7,9 +7,9 @@ and Material Design based on the MVVM architecture. The product technical docume
 </p>
 
 <p align="start">
-<img src="previews/home.png"  align="start" width="320"/>
-<img src="previews/signUp.png" width="320"/>
-<img src="previews/home.png" width="320"/>
+<img src="previews/login.png" align="start" width="320"/>
+<img src="previews/signUp.png" align="start"  width="320"/>
+<img src="previews/home.png"   width="320"/>
 </p>
 
 <img src="previews/preview.gif" align="right" width="320"/>
