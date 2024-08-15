@@ -61,7 +61,7 @@ import com.tei.snapshop.ui.theme.shapes
 @Composable
 fun ProductScreen(
     viewModel: ProductViewModel = hiltViewModel(),
-    onClick: () -> Unit,
+    onClick: (Product) -> Unit,
     padding: PaddingValues,
     modifier: Modifier
 ) {
@@ -130,7 +130,9 @@ fun ProductScreen(
                 ProductCategory(modifier)
                 Spacer(modifier = modifier.height(10.dp))
                 //vertical product recyclerview
-                ProductListGrid(products, onClick, modifier)
+                ProductListGrid(products, onClick = {
+                              onClick(it)
+                }, modifier)
             }
         }
     }
@@ -168,7 +170,7 @@ fun ProductCategory(modifier: Modifier) {
 @Composable
 fun ProductListGrid(
     products: List<Product>,
-    onClick: () -> Unit,
+    onClick: (Product) -> Unit,
     modifier: Modifier,
     viewModel: ProductViewModel = hiltViewModel()
 ) {
@@ -180,8 +182,12 @@ fun ProductListGrid(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(products.size) { index ->
-                ProductCard(product = products[index], onClick, modifier)
+            items(products.size) {
+                index ->
+                ProductCard(product = products[index], onProductClicked = {
+                         onClick(products[index])
+                },
+                    modifier)
                 // Load next batch when reaching the end of the list
                 if (index == products.size - 1) {
                     viewModel.loadNextBatch()

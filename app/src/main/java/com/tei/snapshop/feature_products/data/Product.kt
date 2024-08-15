@@ -1,10 +1,9 @@
 package com.tei.snapshop.feature_products.data
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import androidx.room.TypeConverters
-import com.tei.snapshop.data.local.RatingConverter
+import kotlinx.parcelize.Parcelize
 
 /**
  * Data class for all app products
@@ -12,6 +11,7 @@ import com.tei.snapshop.data.local.RatingConverter
  * Copyright (c). All rights reserved
  */
 
+@Parcelize
 @Entity(tableName = "products")
 data class Product(
     @PrimaryKey
@@ -22,12 +22,13 @@ data class Product(
     val image: String,
     val category: String,
     val rating: ProductRating?,
-)
+) : Parcelable
 
+@Parcelize
 data class ProductRating(
     val rate: Double,
     val count: Int
-)
+) : Parcelable
 
 data class ProductCategory(
     val category: List<String>

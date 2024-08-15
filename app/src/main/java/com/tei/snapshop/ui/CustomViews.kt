@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -26,6 +27,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -330,21 +335,24 @@ fun PageTitle(
     Row(
         modifier = modifier
             .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
     ) {
         Icon(
             painter = painterResource(id = R.drawable.icon_back_button),
             contentDescription = "Back",
+            tint = Color.Black,
             modifier = modifier
                 .size(24.dp)
                 .clickable { backHandler() }
         )
-        Spacer(modifier = modifier.width(16.dp))
+        Spacer(modifier.width(50.dp))
         Text(
             text = pageTitle,
             fontWeight = FontWeight.Bold,
             style = AppTypography.titleMedium,
-            fontSize = 20.sp
+            fontSize = 20.sp,
+            color = colorResource(id = R.color.black)
         )
     }
 }
@@ -436,4 +444,47 @@ fun ProductCard2(modifier: Modifier) {
             )
         }
     }
+}
+
+@Composable
+fun ProductDetailExtra(modifier: Modifier) {
+    // Size selection
+    Text(
+        text = "Size",
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+        style = AppTypography.bodySmall,
+        modifier = modifier
+    )
+
+    Spacer(modifier = modifier.height(16.dp))
+
+    var selectedSize by remember { mutableStateOf(40) }
+    val sizes = listOf(38, 39, 40, 41, 42, 43)
+
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(sizes.size) { index ->
+            val size = sizes[index]
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .size(48.dp)
+                    .background(
+                        if (size == selectedSize) Color.Black
+                        else colorResource(id = R.color.neutral_200),
+                        CircleShape
+                    )
+                    .clickable { selectedSize = size }
+            ) {
+                Text(
+                    text = size.toString(),
+                    color = if (size == selectedSize) Color.White else Color.Black,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+    }
+
 }
