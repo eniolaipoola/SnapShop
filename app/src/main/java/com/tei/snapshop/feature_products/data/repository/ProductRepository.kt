@@ -1,9 +1,13 @@
 package com.tei.snapshop.feature_products.data.repository
 
-import com.tei.snapshop.data.local.AppDatabase
+import android.content.Context
+import com.tei.snapshop.R
 import com.tei.snapshop.data.network.APIService
+import com.tei.snapshop.data.network.NoInternetException
 import com.tei.snapshop.feature_products.data.Product
 import com.tei.snapshop.feature_products.data.local.ProductDao
+import com.tei.snapshop.ui.theme.isInternetAvailable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 /**
@@ -14,21 +18,31 @@ import javax.inject.Inject
 
 class ProductRepository  @Inject constructor(
     private val productDao: ProductDao,
-    private val appDatabase: AppDatabase,
-    private val apiService: APIService
+    private val apiService: APIService,
+    @ApplicationContext private val context: Context
 ) {
-    suspend fun fetchAndCacheProduct(): List<Product> {
-        val products = apiService.fetchProducts()
-        productDao.insertAllProduct(products)
-        return products
+    private suspend fun fetchAndCacheProduct(batch: Int, offset:Int): List<Product> {
+        if(!isInternetAvailable(context)) {
+            // No internet, return or notify the viewModel
+            throw NoInternetException(context.getString(R.string.no_internet_connectio))
+        } else {
+            val productsFromApi = apiService.fetchProducts(batch, offset)
+            productDao.insertAllProduct(productsFromApi)
+            return productsFromApi
+        }
     }
 
-    suspend fun getAllProducts(): List<Product> {
+    suspend fun getAllProducts(batch: Int = 50): List<Product> {
         val products = productDao.fetchAllProduct()
         return if(products?.isNotEmpty() == true) {
             products
         } else {
-            fetchAndCacheProduct()
+            fetchAndCacheProduct(batch, 0)
         }
     }
+
+    suspend fun loadNextBatch(currentSize: Int, limit: Int = 50): List<Product> {
+        return fetchAndCacheProduct(limit, currentSize)
+    }
+
 }

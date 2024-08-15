@@ -2,6 +2,7 @@ package com.tei.snapshop.data.network
 
 import com.tei.snapshop.feature_products.data.Product
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 /**
  * Class Description
@@ -10,5 +11,8 @@ import retrofit2.http.GET
  */
 interface APIService {
     @GET("products")
-    suspend fun fetchProducts(): List<Product>
+    suspend fun fetchProducts(
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
+    ): List<Product>
 }

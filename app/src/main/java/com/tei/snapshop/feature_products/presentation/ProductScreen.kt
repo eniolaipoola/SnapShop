@@ -14,12 +14,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -40,15 +39,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.tei.snapshop.R
 import com.tei.snapshop.feature_products.ProductViewModel
 import com.tei.snapshop.feature_products.data.Product
+import com.tei.snapshop.ui.ErrorView
 import com.tei.snapshop.ui.LoadingView
 import com.tei.snapshop.ui.theme.AppTypography
 import com.tei.snapshop.ui.theme.shapes
@@ -69,9 +68,10 @@ fun ProductScreen(
     val searchQuery by remember { viewModel.searchQuery }
 
     val products by viewModel.products.collectAsState()
+    val error by viewModel.error.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.fetchProducts()
+        viewModel.fetchInitialProducts()
     }
 
     Surface(
@@ -120,6 +120,11 @@ fun ProductScreen(
                         }
                     }
                 )
+
+                if(error != null) {
+                    ErrorView(errorMessage = error.toString(), modifier = modifier)
+                }
+
                 Spacer(modifier = modifier.height(10.dp))
                 //horizontal category recyclerview
                 ProductCategory(modifier)
@@ -161,7 +166,12 @@ fun ProductCategory(modifier: Modifier) {
 }
 
 @Composable
-fun ProductListGrid(products: List<Product>, onClick: () -> Unit, modifier: Modifier) {
+fun ProductListGrid(
+    products: List<Product>,
+    onClick: () -> Unit,
+    modifier: Modifier,
+    viewModel: ProductViewModel = hiltViewModel()
+) {
 
     if(products.isNotEmpty()) {
         LazyVerticalGrid(
@@ -172,6 +182,10 @@ fun ProductListGrid(products: List<Product>, onClick: () -> Unit, modifier: Modi
         ) {
             items(products.size) { index ->
                 ProductCard(product = products[index], onClick, modifier)
+                // Load next batch when reaching the end of the list
+                if (index == products.size - 1) {
+                    viewModel.loadNextBatch()
+                }
             }
         }
     } else {
@@ -181,88 +195,84 @@ fun ProductListGrid(products: List<Product>, onClick: () -> Unit, modifier: Modi
 
 }
 
+@Preview(showBackground = true)
+@Composable
+fun ProductCardPrev() {
+    val product =  Product(1,"Jacket", 100.99, description = "Product",
+        "https://i.pravatar.cc/", "Men", null)
+    ProductCard(product, {}, Modifier)
+
+}
+
 @Composable
 fun ProductCard(product: Product, onProductClicked: () -> Unit, modifier: Modifier) {
     Box(
         modifier = modifier
             .height(250.dp)
-            .fillMaxWidth()
+            .width(150.dp)
+            .background(colorResource(id = R.color.neutral_200))
             .clickable {
                 onProductClicked()
             }
     ) {
-        // Image as the background
-        Image(
-            painter = rememberAsyncImagePainter(
-                model = product.image,
-                placeholder = painterResource(R.drawable.image_placeholder),
-                error = painterResource(R.drawable.icon_error)
-            ),
-            contentDescription = null,
-            modifier = modifier
-                .fillMaxSize(),
-            alpha = 0.7F,
-            contentScale = ContentScale.FillHeight // ContentScale.Crop makes sure the image fills the entire box
-        )
-
-        Column(
-            modifier = modifier
-                .padding(8.dp)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.Start
-        ) {
-            // Top content (Like button)
-            Icon(
-                painter = painterResource(id = R.drawable.icon_like),
-                tint = Color.White,
-                contentDescription = stringResource(R.string.like_button),
+        Column {
+            // Product image
+            Image(
+                painter = rememberAsyncImagePainter(
+                    model = remember {
+                        product.image
+                    },
+                    placeholder = painterResource(R.drawable.image_placeholder),
+                    error = painterResource(R.drawable.icon_error)
+                ),
+                contentDescription = null,
                 modifier = modifier
-                    .size(24.dp)
-                    .align(Alignment.End)
-                    .background(Color.Black.copy(alpha = 0.5F), shape = CircleShape)
-                    .padding(4.dp)
+                    .fillMaxWidth()
+                    .height(150.dp)
+                    .padding(4.dp),
+                contentScale = ContentScale.Crop // ContentScale.Crop makes sure the image fills the entire box
             )
 
-            // Bottom content (Name and Price, Cart Icon)
-            Row(
-                modifier = modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column {
-                    Text(
-                        text = product.title,
-                        color = Color.Black,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
-                        style = AppTypography.bodyMedium,
-                        textAlign = TextAlign.Left
-                    )
-                    Spacer(modifier = modifier.height(4.dp))
+            Spacer(modifier = modifier.height(8.dp))
 
-                    Text(
-                        text = product.price.toString(),
-                        color = Color.Black,
-                        fontSize = 16.sp,
-                        style = AppTypography.bodySmall,
-                        textAlign = TextAlign.Left
-                    )
-                }
-
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_cart),
-                    contentDescription = "Add to Cart",
-                    tint = Color.White,
-                    modifier = modifier
-                        .size(24.dp)
-                        .background(Color.Black.copy(alpha = 0.5F), shape = CircleShape)
-                        .padding(4.dp)
-                        .align(Alignment.CenterVertically)
+            // Product details
+            Column(modifier = modifier.padding(4.dp)) {
+                Text(
+                    text = product.title,
+                    style = AppTypography.bodySmall,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                    color = colorResource(id = R.color.neutral_500)
                 )
+
+                Spacer(modifier = modifier.height(4.dp))
+
+                // Shopping cart button
+                Row(
+                    modifier = modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "$" + product.price,
+                        style = AppTypography.bodySmall,
+                        color = Color.Black
+                    )
+                    
+                    IconButton(onClick = {
+                        // add to cart functionality
+                    }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.icon_cart),
+                            contentDescription = null,
+                            modifier = modifier
+                                .width(20.dp)
+                                .height(20.dp),
+                            tint = Color.Black
+                        )
+                    }
+                }
             }
         }
     }
-
-
 }

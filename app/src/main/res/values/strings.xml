@@ -54,4 +54,7 @@
     <string name="cart">Cart</string>
     <string name="product_details">Product Details</string>
     <string name="checkout">Checkout</string>
+    <string name="no_internet_connection">No internet connection. Please check your settings.</string>
+    <string name="retry">Retry</string>
+    <string name="no_internet_connectio">No internet connection</string>
 </resources>

@@ -2,15 +2,20 @@ package com.tei.snapshop.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -25,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,6 +40,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.tei.snapshop.R
 import com.tei.snapshop.ui.theme.AppTypography
 import com.tei.snapshop.ui.theme.shapes
@@ -339,5 +346,94 @@ fun PageTitle(
             style = AppTypography.titleMedium,
             fontSize = 20.sp
         )
+    }
+}
+
+@Composable
+fun NoInternetScreen(onRetry: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = stringResource(R.string.no_internet_connection))
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = onRetry) {
+            Text(text = stringResource(R.string.retry))
+        }
+    }
+}
+
+@Composable
+fun ProductCard2(modifier: Modifier) {
+    Column(
+        modifier = modifier
+            .padding(8.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.Start
+    ) {
+        Image(
+            painter = rememberAsyncImagePainter(
+                model = "",
+                placeholder = painterResource(R.drawable.image_placeholder),
+                error = painterResource(R.drawable.icon_error)
+            ),
+            contentDescription = null,
+            modifier = modifier
+                .fillMaxWidth()
+                .height(100.dp),
+            alpha = 0.7F,
+            contentScale = ContentScale.Inside // ContentScale.Crop makes sure the image fills the entire box
+        )
+        // Top content (Like button)
+        Icon(
+            painter = painterResource(id = R.drawable.icon_like),
+            tint = Color.White,
+            contentDescription = stringResource(R.string.like_button),
+            modifier = modifier
+                .size(24.dp)
+                .align(Alignment.End)
+                .background(Color.Black.copy(alpha = 0.5F), shape = CircleShape)
+                .padding(4.dp)
+        )
+
+        // Bottom content (Name and Price, Cart Icon)
+        Row(
+            modifier = modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column {
+                Text(
+                    text = "product.title",
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    style = AppTypography.bodyMedium,
+                    textAlign = TextAlign.Left
+                )
+                Spacer(modifier = modifier.height(4.dp))
+
+                Text(
+                    text = "product.price.toString()",
+                    color = Color.Black,
+                    fontSize = 16.sp,
+                    style = AppTypography.bodySmall,
+                    textAlign = TextAlign.Left
+                )
+            }
+
+            Icon(
+                painter = painterResource(id = R.drawable.icon_cart),
+                contentDescription = "Add to Cart",
+                tint = Color.White,
+                modifier = modifier
+                    .size(24.dp)
+                    .background(Color.Black.copy(alpha = 0.5F), shape = CircleShape)
+                    .padding(4.dp)
+                    .align(Alignment.CenterVertically)
+            )
+        }
     }
 }
