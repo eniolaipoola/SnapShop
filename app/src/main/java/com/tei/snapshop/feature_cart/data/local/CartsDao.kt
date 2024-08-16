@@ -12,11 +12,13 @@ import com.tei.snapshop.feature_cart.data.CartProduct
  */
 
 @Dao
-interface CartDao {
+interface CartsDao {
 
     @Query("SELECT * FROM carts")
     suspend fun getCart(): Cart?    // a user can only have a cart per time
 
+    //@Query("INSERT INTO carts Values()")
+    //suspend fun createCart(data: Cart): Cart?
     @Query("Select * FROM carts where userId = :userId")
     suspend fun getUserCart(userId: Int): Cart?
 
