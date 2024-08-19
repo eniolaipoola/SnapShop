@@ -130,6 +130,9 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.robolectric)
     testImplementation(libs.junit)
+    androidTestImplementation(libs.truth)
+    androidTestImplementation(libs.core.testing)
+    androidTestImplementation(libs.androidx.espresso.core.v340)
     // For Mockito
     testImplementation(libs.mockito.core)
     // For Mockito JUnit Runner
