@@ -60,18 +60,19 @@ fun SignInContent(
 
     val email by remember { viewModel.email }
     val password by remember { viewModel.password }
+
     val passwordVisibility by remember {
         viewModel.isPasswordVisible
     }
     val isSignInButtonEnabled by remember { viewModel.isSignInButtonEnabled }
-    val signinState by remember { viewModel.signInState }
+    val signinState by  viewModel.signInState
 
     val context = LocalContext.current
 
     when (signinState) {
         is SignInState.Idle -> {}
         is SignInState.Loading -> {
-            LoadingView(modifier)
+            LoadingView(modifier = modifier)
         }
         is SignInState.Success -> {
             navigateToHomePage()
@@ -148,7 +149,6 @@ fun SignInContent(
                     style = AppTypography.bodyMedium,
                     color = colorResource(id = R.color.color_primary)
                 )
-
                 Spacer(modifier.height(15.dp))
 
                 CustomAppButton(
@@ -156,7 +156,6 @@ fun SignInContent(
                     buttonText = stringResource(id = R.string.sign_in),
                     enabled = isSignInButtonEnabled,
                     onButtonClicked = {
-                        //navigateToHomePage()
                         viewModel.signInUser(email, password)
                     }
                 )

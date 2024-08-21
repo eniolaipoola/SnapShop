@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +40,7 @@ import com.tei.snapshop.feature_authentication.sign_in.presentation.ui.getActivi
 import com.tei.snapshop.feature_authentication.sign_up.SignUpViewModel
 import com.tei.snapshop.ui.CustomAppButton
 import com.tei.snapshop.ui.EmailInput
+import com.tei.snapshop.ui.LoadingView
 import com.tei.snapshop.ui.PasswordInput
 import com.tei.snapshop.ui.theme.AppTypography
 import com.tei.snapshop.ui.theme.shapes
@@ -84,7 +84,7 @@ fun SignUpContent(
     when (signupState) {
         is SignUpState.Idle -> {}
         is SignUpState.Loading -> {
-            CircularProgressIndicator() // Show loading indicator
+            LoadingView(modifier = modifier)
         }
         is SignUpState.Success -> {
             navigateToHomePage()

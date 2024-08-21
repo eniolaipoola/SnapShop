@@ -173,6 +173,7 @@ fun CustomAppButton(
             disabledContainerColor = colorResource(id = R.color.button_inactive_color),
             disabledContentColor = colorResource(id = R.color.color_primary)
         ),
+        elevation = null,
         enabled = enabled,
         border = BorderStroke(1.dp, colorResource(id = R.color.text_field_container_color)),
         onClick = onButtonClicked
@@ -190,7 +191,11 @@ fun CustomAppButton(
                     modifier = modifier
                         .padding(start = 16.dp, end = 16.dp),
                     text = buttonText,
-                    color = colorResource(id = R.color.text_color),
+                    color = if(enabled){
+                        colorResource(id = R.color.white)
+                    } else {
+                        colorResource(id = R.color.text_color)
+                    },
                     textAlign = TextAlign.Center,
                     style = AppTypography.bodySmall,
                     fontSize = 16.sp

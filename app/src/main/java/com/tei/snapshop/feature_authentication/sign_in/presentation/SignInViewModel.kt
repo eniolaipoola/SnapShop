@@ -44,7 +44,6 @@ class SignInViewModel @Inject constructor(
         private set
 
     var signInState = mutableStateOf<SignInState>(SignInState.Idle)
-        private set
 
     fun onEmailChanged(emailValue: String) {
         email.value = emailValue
@@ -95,11 +94,6 @@ class SignInViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    fun getUserData(): User? {
-        val userJson = sharedPreference.getString("user_data", null)
-        return gson.fromJson(userJson, User::class.java)
     }
 
     fun onPasswordVisibilityToggle() {
